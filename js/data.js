@@ -24,6 +24,7 @@ async function loadData() {
         responsable: cp['Responsable'] || 'N/A',
         correo: cp['Correo'] || 'N/A',
         descripcion: cp['Descripcion'] || '',
+        pdf: cp['pdf'] || 'No',
 
         // Operational metrics
         frecuencia: cp['FRECUENCIA'] || cp['Frecuencia'] || 'N/A',

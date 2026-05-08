@@ -48,6 +48,7 @@ function renderTablePage() {
         { key: 'frecuencia', label: 'frecuencia', cls: '' },
         { key: 'ponderacion', label: 'ponderacion', cls: 'text-right' },
         { key: 'viabilidad', label: 'viabilidad', cls: '' },
+        { key: 'pdf', label: 'pdf', cls: 'text-center' },
         { key: '_actions', label: '', cls: 'w-10 text-center' },
     ];
 
@@ -92,6 +93,9 @@ function renderTablePage() {
       </td>
       <td class="px-4 py-3.5">
         ${semaphoreBadge(p.semaphore, p.viabilidad)}
+      </td>
+      <td class="px-4 py-3.5 text-center">
+        <span class="text-xs ${p.pdf === 'Si' ? 'text-emerald-400 font-bold' : 'text-slate-500'}">${p.pdf}</span>
       </td>
       <td class="px-4 py-3.5 text-center">
         <button class="btn-detail opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/40 flex items-center justify-center text-indigo-400" data-id="${p.id}" title="Ver detalle">

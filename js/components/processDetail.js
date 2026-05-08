@@ -63,7 +63,7 @@ function openProcessDetail(id) {
             </span>
           </div>
 
-          <div class="rounded-2xl border border-white/8 bg-white/3 p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="rounded-2xl border border-white/8 bg-white/3 p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Responsable</p>
               <p class="text-sm text-slate-200 font-medium">${p.responsable}</p>
@@ -71,6 +71,10 @@ function openProcessDetail(id) {
             <div>
               <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Correo</p>
               <p class="text-sm text-slate-200 font-medium">${p.correo}</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Requiere PDF</p>
+              <p class="text-sm ${p.pdf === 'Si' ? 'text-emerald-400 font-bold' : 'text-slate-400'} font-medium">${p.pdf}</p>
             </div>
           </div>
         </div>
