@@ -3,69 +3,69 @@
  */
 
 let tableState = {
-    data: [],
-    sortKey: 'ranking',
-    sortDir: 'asc',
-    page: 1,
-    pageSize: 8,
+  data: [],
+  sortKey: 'ranking',
+  sortDir: 'asc',
+  page: 1,
+  pageSize: 10,
 };
 
 function renderTable(processes) {
-    tableState.data = processes;
-    tableState.page = 1;
-    renderTablePage();
+  tableState.data = processes;
+  tableState.page = 1;
+  renderTablePage();
 }
 
 function renderTablePage() {
-    const { data, sortKey, sortDir, page, pageSize } = tableState;
+  const { data, sortKey, sortDir, page, pageSize } = tableState;
 
-    // Sort
-    const sorted = [...data].sort((a, b) => {
-        let va = a[sortKey], vb = b[sortKey];
-        if (typeof va === 'string') va = va.toLowerCase();
-        if (typeof vb === 'string') vb = vb.toLowerCase();
-        if (va < vb) return sortDir === 'asc' ? -1 : 1;
-        if (va > vb) return sortDir === 'asc' ? 1 : -1;
-        return 0;
-    });
+  // Sort
+  const sorted = [...data].sort((a, b) => {
+    let va = a[sortKey], vb = b[sortKey];
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va < vb) return sortDir === 'asc' ? -1 : 1;
+    if (va > vb) return sortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
 
-    // Paginate
-    const total = sorted.length;
-    const pages = Math.max(1, Math.ceil(total / pageSize));
-    const start = (page - 1) * pageSize;
-    const slice = sorted.slice(start, start + pageSize);
+  // Paginate
+  const total = sorted.length;
+  const pages = Math.max(1, Math.ceil(total / pageSize));
+  const start = (page - 1) * pageSize;
+  const slice = sorted.slice(start, start + pageSize);
 
-    // Header
-    const cols = [
-        { key: 'ranking', label: 'ranking', cls: 'w-16 text-center' },
-        { key: 'nombre', label: 'proceso', cls: 'min-w-[200px]' },
-        { key: 'lineaNegocio', label: 'area', cls: 'min-w-[140px]' },
-        { key: 'responsable', label: 'responsable', cls: 'min-w-[140px]' },
-        { key: 'personas', label: 'personas', cls: 'text-right' },
-        { key: 'transacciones', label: 'transacciones', cls: 'text-right' },
-        { key: 'tmo', label: 'tmo minutos', cls: 'text-right' },
-        { key: 'hhMes', label: 'potencial beneficio mes hh', cls: 'text-right' },
-        { key: 'frecuencia', label: 'frecuencia', cls: '' },
-        { key: 'ponderacion', label: 'ponderacion', cls: 'text-right' },
-        { key: 'viabilidad', label: 'viabilidad', cls: '' },
-        { key: 'pdf', label: 'pdf', cls: 'text-center' },
-        { key: '_actions', label: '', cls: 'w-10 text-center' },
-    ];
+  // Header
+  const cols = [
+    { key: 'ranking', label: 'ranking', cls: 'w-16 text-center' },
+    { key: 'nombre', label: 'proceso', cls: 'min-w-[200px]' },
+    { key: 'lineaNegocio', label: 'area', cls: 'min-w-[140px]' },
+    { key: 'responsable', label: 'responsable', cls: 'min-w-[140px]' },
+    { key: 'personas', label: 'personas', cls: 'text-right' },
+    { key: 'transacciones', label: 'transacciones', cls: 'text-right' },
+    { key: 'tmo', label: 'tmo minutos', cls: 'text-right' },
+    { key: 'hhMes', label: 'potencial beneficio mes hh', cls: 'text-right' },
+    { key: 'frecuencia', label: 'frecuencia', cls: '' },
+    { key: 'ponderacion', label: 'ponderacion', cls: 'text-right' },
+    { key: 'viabilidad', label: 'viabilidad', cls: '' },
+    { key: 'pdf', label: 'pdf', cls: 'text-center' },
+    { key: '_actions', label: '', cls: 'w-10 text-center' },
+  ];
 
-    const headerHTML = cols.map(c => {
-        if (c.key === '_actions') return `<th class="${c.cls}"></th>`;
-        const active = sortKey === c.key;
-        const dir = active ? (sortDir === 'asc' ? '↑' : '↓') : '⇅';
-        return `<th class="${c.cls} px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400 cursor-pointer select-none hover:text-slate-200 transition-colors"
+  const headerHTML = cols.map(c => {
+    if (c.key === '_actions') return `<th class="${c.cls}"></th>`;
+    const active = sortKey === c.key;
+    const dir = active ? (sortDir === 'asc' ? '↑' : '↓') : '⇅';
+    return `<th class="${c.cls} px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400 cursor-pointer select-none hover:text-slate-200 transition-colors"
       data-sort="${c.key}">
       <span class="flex items-center gap-1 ${c.cls.includes('text-right') ? 'justify-end' : ''}">
         ${c.label}
         <span class="${active ? 'text-indigo-400' : 'text-slate-600'} text-[10px]">${dir}</span>
       </span>
     </th>`;
-    }).join('');
+  }).join('');
 
-    const rowsHTML = slice.map(p => `
+  const rowsHTML = slice.map(p => `
     <tr class="border-t border-white/5 hover:bg-white/3 transition-colors cursor-pointer group" data-id="${p.id}">
       <td class="px-4 py-3.5 text-center">
         <span class="badge-ranking w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mx-auto">${p.ranking}</span>
@@ -105,54 +105,54 @@ function renderTablePage() {
     </tr>
   `).join('');
 
-    // Pagination
-    const pagHTML = buildPagination(page, pages, total, start, Math.min(start + pageSize, total));
+  // Pagination
+  const pagHTML = buildPagination(page, pages, total, start, Math.min(start + pageSize, total));
 
-    setHTML('table-head', headerHTML);
-    setHTML('table-body', rowsHTML || `<tr><td colspan="${cols.length}" class="text-center py-10 text-slate-500">No hay procesos para mostrar</td></tr>`);
-    setHTML('table-pagination', pagHTML);
+  setHTML('table-head', headerHTML);
+  setHTML('table-body', rowsHTML || `<tr><td colspan="${cols.length}" class="text-center py-10 text-slate-500">No hay procesos para mostrar</td></tr>`);
+  setHTML('table-pagination', pagHTML);
 
-    // Bind sorting
-    document.querySelectorAll('#processes-table th[data-sort]').forEach(th => {
-        th.addEventListener('click', () => {
-            const key = th.dataset.sort;
-            if (tableState.sortKey === key) {
-                tableState.sortDir = tableState.sortDir === 'asc' ? 'desc' : 'asc';
-            } else {
-                tableState.sortKey = key;
-                tableState.sortDir = 'asc';
-            }
-            renderTablePage();
-        });
+  // Bind sorting
+  document.querySelectorAll('#processes-table th[data-sort]').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.sort;
+      if (tableState.sortKey === key) {
+        tableState.sortDir = tableState.sortDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        tableState.sortKey = key;
+        tableState.sortDir = 'asc';
+      }
+      renderTablePage();
     });
+  });
 
-    // Bind row click -> detail
-    document.querySelectorAll('#processes-table tr[data-id]').forEach(row => {
-        row.addEventListener('click', (e) => {
-            if (e.target.closest('.btn-comparator-check')) return;
-            const id = parseInt(row.dataset.id);
-            openProcessDetail(id);
-        });
+  // Bind row click -> detail
+  document.querySelectorAll('#processes-table tr[data-id]').forEach(row => {
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('.btn-comparator-check')) return;
+      const id = parseInt(row.dataset.id);
+      openProcessDetail(id);
     });
+  });
 
-    // Bind pagination buttons
-    document.querySelectorAll('[data-page]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const pg = parseInt(btn.dataset.page);
-            if (pg >= 1 && pg <= pages) { tableState.page = pg; renderTablePage(); }
-        });
+  // Bind pagination buttons
+  document.querySelectorAll('[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pg = parseInt(btn.dataset.page);
+      if (pg >= 1 && pg <= pages) { tableState.page = pg; renderTablePage(); }
     });
+  });
 }
 
 function buildPagination(page, pages, total, from, to) {
-    const prevDisabled = page <= 1 ? 'opacity-40 pointer-events-none' : '';
-    const nextDisabled = page >= pages ? 'opacity-40 pointer-events-none' : '';
-    let pageNums = '';
-    for (let i = 1; i <= pages; i++) {
-        const active = i === page ? 'bg-indigo-500/30 text-indigo-300 border-indigo-500/50' : 'text-slate-400 hover:bg-white/5';
-        pageNums += `<button data-page="${i}" class="w-8 h-8 rounded-lg text-xs font-medium border border-transparent ${active} transition-all">${i}</button>`;
-    }
-    return `
+  const prevDisabled = page <= 1 ? 'opacity-40 pointer-events-none' : '';
+  const nextDisabled = page >= pages ? 'opacity-40 pointer-events-none' : '';
+  let pageNums = '';
+  for (let i = 1; i <= pages; i++) {
+    const active = i === page ? 'bg-indigo-500/30 text-indigo-300 border-indigo-500/50' : 'text-slate-400 hover:bg-white/5';
+    pageNums += `<button data-page="${i}" class="w-8 h-8 rounded-lg text-xs font-medium border border-transparent ${active} transition-all">${i}</button>`;
+  }
+  return `
     <div class="flex items-center gap-2 text-xs text-slate-500">
       Mostrando ${from + 1}–${to} de ${total}
     </div>
@@ -168,11 +168,11 @@ function buildPagination(page, pages, total, from, to) {
 }
 
 function truncate(str, max) {
-    return str && str.length > max ? str.slice(0, max - 1) + '…' : str;
+  return str && str.length > max ? str.slice(0, max - 1) + '…' : str;
 }
 
 function ponderacionColor(val) {
-    if (val >= 70) return '#10b981';
-    if (val >= 45) return '#f59e0b';
-    return '#f43f5e';
+  if (val >= 70) return '#10b981';
+  if (val >= 45) return '#f59e0b';
+  return '#f43f5e';
 }

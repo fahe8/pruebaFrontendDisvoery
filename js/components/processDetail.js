@@ -3,33 +3,33 @@
  */
 
 function openProcessDetail(id) {
-    const p = processesData.find(x => x.id === id);
-    if (!p) return;
+  const p = processesData.find(x => x.id === id);
+  if (!p) return;
 
-    const modal = document.getElementById('process-detail-modal');
-    const body = document.getElementById('process-detail-body');
-    if (!modal || !body) return;
+  const modal = document.getElementById('process-detail-modal');
+  const body = document.getElementById('process-detail-body');
+  if (!modal || !body) return;
 
-    const solutionCards = p.soluciones.map(s => `
+  const solutionCards = p.soluciones.map(s => `
     <div class="rounded-xl border border-white/8 bg-white/3 p-4">
       <div class="flex items-center gap-2 mb-2">
         <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">${s.tipo}</span>
       </div>
-      <p class="text-xs text-slate-400 leading-relaxed mb-3">${s.descripcion.slice(0, 300)}…</p>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">${s.descripcion}</p>
       <div class="flex flex-wrap gap-1.5">
         ${(s.herramientas_sugeridas || []).map(t =>
-        `<span class="badge-tool text-xs px-2 py-0.5 rounded-md border">${t}</span>`
-    ).join('')}
+    `<span class="badge-tool text-xs px-2 py-0.5 rounded-md border">${t}</span>`
+  ).join('')}
       </div>
     </div>
   `).join('');
 
-    // Autopercent gauge
-    const gaugeColor = p.semaphore === 'green' ? '#10b981' : p.semaphore === 'yellow' ? '#f59e0b' : '#f43f5e';
-    const pct = p.ponderacion;
-    const strokeDasharray = `${pct * 2.51327} ${251.327}`; // 2πr where r=40
+  // Autopercent gauge
+  const gaugeColor = p.semaphore === 'green' ? '#10b981' : p.semaphore === 'yellow' ? '#f59e0b' : '#f43f5e';
+  const pct = p.ponderacion;
+  const strokeDasharray = `${pct * 2.51327} ${251.327}`; // 2πr where r=40
 
-    body.innerHTML = `
+  body.innerHTML = `
     <div class="space-y-6">
       ${p.hasAlert ? `
         <div class="flex gap-3 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200">
@@ -63,18 +63,32 @@ function openProcessDetail(id) {
             </span>
           </div>
 
-          <div class="rounded-2xl border border-white/8 bg-white/3 p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Responsable</p>
-              <p class="text-sm text-slate-200 font-medium">${p.responsable}</p>
+          <div class="rounded-2xl border border-white/8 bg-white/3 p-5 space-y-5">
+            <!-- Row 1: Responsable & PDF -->
+            <div class="grid grid-cols-2 gap-6">
+              <div class="space-y-1">
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest">Responsable</p>
+                <p class="text-sm text-slate-200 font-semibold">${p.responsable}</p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest">Requiere PDF</p>
+                <p class="text-sm ${p.pdf === 'Si' ? 'text-emerald-400 font-bold' : 'text-slate-400'} font-semibold">${p.pdf}</p>
+              </div>
             </div>
-            <div>
-              <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Correo</p>
-              <p class="text-sm text-slate-200 font-medium">${p.correo}</p>
-            </div>
-            <div>
-              <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Requiere PDF</p>
-              <p class="text-sm ${p.pdf === 'Si' ? 'text-emerald-400 font-bold' : 'text-slate-400'} font-medium">${p.pdf}</p>
+            <!-- Row 2: Correo -->
+            <div class="pt-4 border-t border-white/5">
+              <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Correo Electrónico</p>
+              <div class="flex items-center gap-2 group/mail">
+                <div class="flex-1 flex items-center gap-2 rounded-xl px-3 py-2 border border-white/5 transition-colors group-hover/mail:border-white/10">
+                  <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  <span class="text-xs text-slate-400 font-mono truncate flex-1">${p.correo}</span>
+                  <button onclick="copyToClipboard('${p.correo}', this)" 
+                    class="p-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 transition-all active:scale-90" 
+                    title="Copiar correo">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -117,11 +131,11 @@ function openProcessDetail(id) {
         <h3 class="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">Métricas Operativas</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           ${[
-              { label: 'Frecuencia', val: p.frecuencia, color: 'text-indigo-300', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-              { label: 'Personas', val: p.personas, color: 'text-sky-300', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-              { label: 'TMO (min)', val: p.tmo, color: 'text-amber-300', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-              { label: 'Transacciones', val: p.transacciones, color: 'text-emerald-300', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
-          ].map(m => `
+      { label: 'Frecuencia', val: p.frecuencia, color: 'text-indigo-300', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { label: 'Personas', val: p.personas, color: 'text-sky-300', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+      { label: 'TMO (min)', val: p.tmo, color: 'text-amber-300', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { label: 'Transacciones', val: p.transacciones, color: 'text-emerald-300', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+    ].map(m => `
             <div class="rounded-2xl border border-white/8 bg-white/3 p-4 space-y-2 group hover:border-white/20 transition-colors">
               <div class="flex items-center justify-between">
                 <p class="text-[10px] text-slate-500 uppercase tracking-widest">${m.label}</p>
@@ -138,7 +152,7 @@ function openProcessDetail(id) {
       <div class="rounded-2xl border border-white/10 bg-indigo-500/5 p-5 border-dashed">
         <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-4 flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Notas y Datos de Origen (Raw)
+          Notas y Datos de Origen 
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-1">
@@ -163,29 +177,42 @@ function openProcessDetail(id) {
     </div>
   `;
 
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-        modal.querySelector('.modal-panel').classList.remove('opacity-0', 'translate-y-4', 'scale-95');
-    }, 10);
+  modal.classList.remove('hidden');
+  setTimeout(() => {
+    modal.querySelector('.modal-panel').classList.remove('opacity-0', 'translate-y-4', 'scale-95');
+  }, 10);
 }
 
 function closeProcessDetail() {
-    const modal = document.getElementById('process-detail-modal');
-    if (!modal) return;
-    const panel = modal.querySelector('.modal-panel');
-    if (panel) panel.classList.add('opacity-0', 'translate-y-4', 'scale-95');
-    setTimeout(() => modal.classList.add('hidden'), 250);
+  const modal = document.getElementById('process-detail-modal');
+  if (!modal) return;
+  const panel = modal.querySelector('.modal-panel');
+  if (panel) panel.classList.add('opacity-0', 'translate-y-4', 'scale-95');
+  setTimeout(() => modal.classList.add('hidden'), 250);
 }
 
 function initDetailModal() {
-    // Close on backdrop click
-    document.getElementById('process-detail-modal')?.addEventListener('click', e => {
-        if (e.target === e.currentTarget) closeProcessDetail();
-    });
-    // Close on button
-    document.getElementById('btn-close-detail')?.addEventListener('click', closeProcessDetail);
-    // Close on Escape
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeProcessDetail();
-    });
+  // Close on backdrop click
+  document.getElementById('process-detail-modal')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeProcessDetail();
+  });
+  // Close on button
+  document.getElementById('btn-close-detail')?.addEventListener('click', closeProcessDetail);
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeProcessDetail();
+  });
 }
+
+/** Global clipboard helper */
+window.copyToClipboard = function (text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>';
+    btn.classList.replace('text-indigo-400', 'text-emerald-400');
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.classList.replace('text-emerald-400', 'text-indigo-400');
+    }, 2000);
+  });
+};

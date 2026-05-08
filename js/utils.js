@@ -7,9 +7,9 @@
 const fmt = {
     currency: (val) =>
         new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(val),
-    number: (val) => new Intl.NumberFormat('es-CO').format(val),
-    percent: (val) => `${val.toFixed(1)}%`,
-    hours: (val) => `${val.toFixed(1)} h`,
+    number: (val) => new Intl.NumberFormat('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val),
+    percent: (val) => new Intl.NumberFormat('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val) + '%',
+    hours: (val) => new Intl.NumberFormat('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val) + ' h',
 };
 
 // ─── COLOR MAPS ──────────────────────────────────────────────────────────────
