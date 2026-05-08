@@ -61,7 +61,6 @@ async function init() {
 
     // Wire up all components
     renderKPICards(processesData);
-    updateAllCharts(processesData);
     renderTable(processesData);
     initFilters();
     initDetailModal();
@@ -72,6 +71,12 @@ async function init() {
     // Hide loader
     toggleVisible('app-loader', false);
     toggleVisible('app-content', true);
+
+    // Render charts after making content visible to avoid 0x0 canvas issues
+    // Using a small delay to ensure DOM dimensions are updated
+    setTimeout(() => {
+        updateAllCharts(processesData);
+    }, 100);
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => init());
