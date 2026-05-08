@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Process Intelligence · Dashboard de Automatización</title>
+  <meta name="description"
+    content="Dashboard inteligente para análisis y priorización de automatización de procesos empresariales.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: { brand: { 500: '#6366f1', 600: '#4f46e5' } },
+          backgroundOpacity: { 3: '0.03', 5: '0.05', 8: '0.08' },
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ─── DARK MODE (default) ─────────────────────────────── */
+    :root {
+      --bg-base: #0a0f1e;
+      --bg-grad-a: rgba(99, 102, 241, 0.15);
+      --bg-grad-b: rgba(139, 92, 246, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --input-bg: rgba(255, 255, 255, 0.05);
+      --input-border: rgba(255, 255, 255, 0.1);
+      --input-color: #cbd5e1;
+      --input-opt-bg: #1e293b;
+      --nav-hover-bg: rgba(255, 255, 255, 0.08);
+      --nav-hover-fg: #f1f5f9;
+      --scrollbar: rgba(148, 163, 184, 0.2);
+      --text-body: #cbd5e1;
+      --alpha8: rgba(255, 255, 255, 0.08);
+      --alpha5: rgba(255, 255, 255, 0.05);
+      --alpha3: rgba(255, 255, 255, 0.03);
+    }
+
+    /* ─── LIGHT MODE overrides ────────────────────────────── */
+    html.light {
+      --bg-base: #f8fafc;
+      --bg-grad-a: rgba(79, 70, 229, 0.04);
+      --bg-grad-b: rgba(124, 58, 237, 0.02);
+      --glass-bg: #ffffff;
+      --glass-border: #e2e8f0;
+      --input-bg: #ffffff;
+      --input-border: #cbd5e1;
+      --input-color: #0f172a;
+      --input-opt-bg: #ffffff;
+      --nav-hover-bg: #f1f5f9;
+      --nav-hover-fg: #4f46e5;
+      --scrollbar: #e2e8f0;
+      --text-body: #334155;
+      --alpha8: rgba(79, 70, 229, 0.06);
+      --alpha5: rgba(79, 70, 229, 0.04);
+      --alpha3: rgba(79, 70, 229, 0.02);
+    }
+
+    body {
+      background-color: var(--bg-base);
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -20%, var(--bg-grad-a) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, var(--bg-grad-b) 0%, transparent 50%);
+      min-height: 100vh;
+      color: var(--text-body);
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar);
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.35);
+    }
+
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      transition: background 0.35s ease, border-color 0.35s ease;
+    }
+
+    /* Light mode: text overrides for slate classes used throughout */
+    html.light .text-slate-100 { color: #0f172a !important; }
+    html.light .text-slate-200 { color: #1e293b !important; }
+    html.light .text-slate-300 { color: #334155 !important; }
+    html.light .text-slate-400 { color: #475569 !important; }
+    html.light .text-slate-500 { color: #64748b !important; }
+    html.light .text-slate-600 { color: #94a3b8 !important; }
+    html.light .text-slate-700 { color: #cbd5e1 !important; }
+    html.light .text-slate-50 { color: #000000 !important; }
+
+    /* Fix headings and emphasis in light mode */
+    html.light h1, html.light h2, html.light h3, html.light .font-bold {
+      color: #0f172a !important;
+    }
+    html.light .text-indigo-400, html.light .text-indigo-300 {
+      color: #4f46e5 !important;
+    }
+    html.light .bg-indigo-500\/20 {
+      background-color: #eff6ff !important;
+      color: #2563eb !important;
+    }
+    html.light .border-white\/8, html.light .border-indigo-500\/30 {
+      border-color: #e2e8f0 !important;
+    }
+    html.light .bg-white\/3, html.light .bg-white\/5, html.light .bg-white\/8 {
+      background-color: #ffffff !important;
+      border: 1px solid #f1f5f9;
+    }
+    html.light .text-slate-300, html.light .text-slate-400 {
+      color: #475569 !important;
+    }
+    html.light .modal-panel {
+      background: #ffffff !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Semantic badges */
+    .badge-tool {
+      background-color: rgba(51, 65, 85, 0.6);
+      color: #e2e8f0;
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    .badge-info {
+      background-color: rgba(71, 85, 105, 0.2);
+      color: #cbd5e1;
+      border-color: rgba(148, 163, 184, 0.2);
+    }
+    .badge-ranking {
+      background-color: rgba(51, 65, 85, 0.6);
+      color: #e2e8f0;
+    }
+
+    html.light .badge-tool {
+      background-color: #f1f5f9 !important;
+      color: #475569 !important;
+      border-color: #e2e8f0 !important;
+    }
+    html.light .badge-info {
+      background-color: #eff6ff !important;
+      color: #3b82f6 !important;
+      border-color: #dbeafe !important;
+    }
+    html.light .badge-ranking {
+      background-color: #f1f5f9 !important;
+      color: #1e293b !important;
+    }
+
+    html.light .bg-amber-500\/10 {
+      background-color: #fffbeb !important;
+      color: #92400e !important;
+      border-color: #fef3c7 !important;
+    }
+
+    /* Override for any other potential gray bgs in light mode */
+    html.light .bg-slate-700\/60,
+    html.light .bg-slate-800,
+    html.light .bg-slate-900 {
+      background-color: #f8fafc !important;
+      color: #334155 !important;
+    }
+
+    html.light #app-loader {
+      background: #f1f5f9;
+    }
+
+    html.light .filter-select option {
+      background: #ffffff;
+      color: #1e293b;
+    }
+
+    .nav-item {
+      transition: all 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background: var(--nav-hover-bg);
+      color: var(--nav-hover-fg);
+    }
+
+    .kpi-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(99, 102, 241, 0.2);
+      border-top-color: #6366f1;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Modal transition helper classes */
+    .modal-panel {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    /* Filter inputs */
+    .filter-select,
+    .filter-input {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--input-color);
+      border-radius: 0.625rem;
+      padding: 0.5rem 0.875rem;
+      font-size: 0.8125rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.35s ease, color 0.35s ease;
+    }
+
+    .filter-select:focus,
+    .filter-input:focus {
+      border-color: rgba(99, 102, 241, 0.6);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+    }
+
+    .filter-select option {
+      background: var(--input-opt-bg);
+    }
+
+    /* ── Theme toggle pill button ── */
+    #btn-theme {
+      position: relative;
+      width: 3.25rem;
+      height: 1.75rem;
+      border-radius: 9999px;
+      flex-shrink: 0;
+      cursor: pointer;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border: none;
+      outline: none;
+      transition: background 0.35s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 0 2px transparent;
+    }
+
+    #btn-theme:hover {
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+    }
+
+    html.light #btn-theme {
+      background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    }
+
+    /* sliding knob */
+    #btn-theme-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 9999px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(.34, 1.56, .64, 1);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    html.light #btn-theme-knob {
+      transform: translateX(1.5rem);
+    }
+
+    #icon-moon {
+      display: block;
+    }
+
+    #icon-sun {
+      display: none;
+    }
+
+    html.light #icon-moon {
+      display: none;
+    }
+
+    html.light #icon-sun {
+      display: block;
+    }
+
+    /* Table */
+    #processes-table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    /* Gradient card border trick */
+    .gradient-border {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(139, 92, 246, 0.2) 100%);
+      padding: 1px;
+      border-radius: 1rem;
+    }
+
+    .gradient-border-inner {
+      background: #0d1526;
+      border-radius: calc(1rem - 1px);
+    }
+
+    /* bg-white/8 hack via opacity */
+    .bg-white\/8 {
+      background-color: var(--alpha8);
+    }
+
+    .bg-white\/5 {
+      background-color: var(--alpha5);
+    }
+
+    .bg-white\/3 {
+      background-color: var(--alpha3);
+    }
+
+    .border-white\/8 {
+      border-color: var(--glass-border);
+    }
+
+    .hover\:bg-white\/3:hover {
+      background-color: var(--alpha3);
+    }
+
+    .hover\:bg-white\/5:hover {
+      background-color: var(--alpha5);
+    }
+  </style>
+</head>
+
+<body class="text-slate-300 overflow-x-hidden">
+
+  <!-- ═══════════════════════ LOADING SCREEN ═══════════════════════ -->
+  <div id="app-loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-[#0a0f1e]">
+    <div class="spinner"></div>
+    <p class="text-slate-400 text-sm tracking-wide">Cargando datos…</p>
+  </div>
+
+  <!-- ═══════════════════════ APP SHELL ═══════════════════════ -->
+  <div id="app-content" class="hidden flex min-h-screen">
+
+    <!-- ───── SIDEBAR ───── -->
+    <aside id="sidebar"
+      class="fixed inset-y-0 left-0 z-40 w-60 flex flex-col glass border-r border-white/8 transition-all duration-300">
+
+      <!-- Logo & Collapse btn -->
+      <div class="flex items-center justify-between px-5 py-5 border-b border-white/8">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/25 flex-shrink-0">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-bold text-slate-100 leading-none">Process</p>
+            <p class="text-xs text-indigo-400 leading-none mt-0.5">Intelligence</p>
+          </div>
+        </div>
+        <button id="btn-sidebar-collapse" class="text-slate-500 hover:text-slate-200 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+        <p class="text-[10px] font-semibold text-slate-600 uppercase tracking-widest px-3 mb-2">Vistas</p>
+
+        <button id="nav-dashboard" data-tab="dashboard"
+          class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-100 bg-white/8">
+          <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Dashboard
+        </button>
+
+        <button id="nav-processes" data-tab="processes"
+          class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          Procesos
+        </button>
+      </nav>
+
+      <!-- Footer -->
+      <div class="px-5 py-4 border-t border-white/8">
+        <p class="text-xs text-slate-600">v1.0 · 2nv Analytics</p>
+      </div>
+    </aside>
+
+    <!-- ───── MAIN CONTENT ───── -->
+    <div id="main-content" class="flex-1 flex flex-col min-w-0 overflow-hidden lg:pl-60 transition-all duration-300">
+
+      <!-- Top bar -->
+      <header class="glass border-b border-white/8 px-6 py-3.5 flex items-center gap-4 flex-shrink-0 sticky top-0 z-30">
+        <!-- Toggle btn (Hamburger/Close) -->
+        <button id="btn-sidebar-toggle" class="text-slate-400 hover:text-slate-200 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        <!-- Global search -->
+        <div class="relative flex-1 max-w-md">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" fill="none"
+            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input id="search-global" type="text" placeholder="Buscar proceso, línea de negocio…"
+            class="filter-input w-full pl-9 pr-4 py-2">
+        </div>
+
+        <!-- Filter count badge -->
+        <span class="hidden sm:flex items-center gap-2 text-xs text-slate-500">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+          <span id="filter-count">8 procesos</span>
+        </span>
+
+        <!-- ── Theme toggle ── -->
+        <button id="btn-theme" title="Cambiar tema" aria-label="Alternar modo oscuro/claro">
+          <span id="btn-theme-knob">
+            <!-- Moon icon (dark mode) -->
+            <svg id="icon-moon" class="w-3 h-3 text-indigo-300" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+            </svg>
+            <!-- Sun icon (light mode) -->
+            <svg id="icon-sun" class="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 2a1 1 0 011 1v1a1 1 0 01-2 0V3a1 1 0 011-1zm0 17a1 1 0 011 1v1a1 1 0 01-2 0v-1a1 1 0 011-1zm9-9a1 1 0 010 2h-1a1 1 0 010-2h1zM4 12a1 1 0 010 2H3a1 1 0 010-2h1zm14.95-7.07a1 1 0 010 1.41l-.71.71a1 1 0 01-1.41-1.41l.71-.71a1 1 0 011.41 0zm-14.14 0a1 1 0 011.41 0l.71.71A1 1 0 016.52 7.05l-.71-.71a1 1 0 010-1.41zM17.66 18.36a1 1 0 01-1.41 0l-.71-.71a1 1 0 011.41-1.41l.71.71a1 1 0 010 1.41zM7.05 17.66a1 1 0 010 1.41l-.71.71a1 1 0 01-1.41-1.41l.71-.71a1 1 0 011.41 0zM12 7a5 5 0 110 10A5 5 0 0112 7z" />
+            </svg>
+          </span>
+        </button>
+      </header>
+
+      <!-- ┌──────────────────────────────────────────────┐ -->
+      <!-- │              SCROLLABLE CONTENT               │ -->
+      <!-- └──────────────────────────────────────────────┘ -->
+      <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+        <!-- ═════════════ FILTERS PANEL ═════════════ -->
+        <section class="glass rounded-2xl p-4">
+          <div class="flex flex-wrap gap-3 items-center">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-widest flex-shrink-0">Filtros</span>
+
+            <select id="filter-model" class="filter-select filter-select flex-1 min-w-[160px]">
+              <option value="all">Todas las líneas</option>
+            </select>
+
+            <select id="filter-frecuencia" class="filter-select flex-1 min-w-[130px]">
+              <option value="all">Frecuencia: Todas</option>
+            </select>
+
+            <select id="filter-viabilidad" class="filter-select flex-1 min-w-[140px]">
+              <option value="all">Viabilidad: Todas</option>
+            </select>
+
+            <div class="flex items-center gap-2 flex-1 min-w-[200px]">
+              <span class="text-xs text-slate-500 flex-shrink-0">HH:</span>
+              <input id="filter-hh-min" type="number" placeholder="Min" class="filter-input w-20" min="0">
+              <span class="text-slate-600">–</span>
+              <input id="filter-hh-max" type="number" placeholder="Max" class="filter-input w-20" min="0">
+            </div>
+
+            <button id="btn-reset-filters"
+              class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-300 border border-white/8 hover:border-white/15 bg-white/3 transition-all">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Resetear
+            </button>
+          </div>
+        </section>
+
+        <!-- ═════════════ TAB: DASHBOARD ═════════════ -->
+        <section id="tab-dashboard" class="space-y-6">
+
+          <!-- KPI Cards -->
+          <div id="kpi-cards" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4"></div>
+
+          <!-- Charts row 1 -->
+          <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Bar chart: HH por proceso -->
+            <div class="xl:col-span-2 glass rounded-2xl p-5">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-sm font-semibold text-slate-100">Horas Hombre por Proceso</h3>
+                  <p class="text-xs text-slate-500 mt-0.5">Consumo mensual de HH · colores por viabilidad</p>
+                </div>
+                <span class="flex gap-3 text-xs text-slate-500">
+                  <span class="flex items-center gap-1.5"><span
+                      class="w-2 h-2 rounded-full bg-emerald-500"></span>Alta</span>
+                  <span class="flex items-center gap-1.5"><span
+                      class="w-2 h-2 rounded-full bg-amber-500"></span>Media</span>
+                  <span class="flex items-center gap-1.5"><span
+                      class="w-2 h-2 rounded-full bg-rose-500"></span>Baja</span>
+                </span>
+              </div>
+              <div class="h-64">
+                <canvas id="chart-bar"></canvas>
+              </div>
+            </div>
+
+            <!-- Pie chart: distribución por modelo -->
+            <div class="glass rounded-2xl p-5">
+              <h3 class="text-sm font-semibold text-slate-100 mb-1">Distribución por Línea</h3>
+              <p class="text-xs text-slate-500 mb-4">Número de procesos por línea de negocio</p>
+              <div class="h-64">
+                <canvas id="chart-pie"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts row 2 -->
+          <div class="glass rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-sm font-semibold text-slate-100">Ranking de Factibilidad de Automatización</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Índice ponderado de viabilidad por proceso</p>
+              </div>
+            </div>
+            <div style="height: 280px;">
+              <canvas id="chart-ranking"></canvas>
+            </div>
+          </div>
+
+          <!-- Quick insights strip -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass rounded-2xl p-4 text-center">
+              <p class="text-2xl font-bold text-emerald-400" id="stat-alta">–</p>
+              <p class="text-xs text-slate-500 mt-1">Viabilidad Alta</p>
+            </div>
+            <div class="glass rounded-2xl p-4 text-center">
+              <p class="text-2xl font-bold text-amber-400" id="stat-media">–</p>
+              <p class="text-xs text-slate-500 mt-1">Viabilidad Media</p>
+            </div>
+            <div class="glass rounded-2xl p-4 text-center">
+              <p class="text-2xl font-bold text-sky-400" id="stat-diario">–</p>
+              <p class="text-xs text-slate-500 mt-1">Frecuencia Diaria</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-processes" class="hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-base font-semibold text-slate-200">Vista de Procesos</h2>
+          </div>
+
+          <div class="glass rounded-2xl overflow-hidden">
+            <div class="overflow-x-auto">
+              <table id="processes-table" class="w-full text-sm">
+                <thead class="bg-white/3 border-b border-white/8">
+                  <tr id="table-head"></tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+              </table>
+            </div>
+            <div id="table-pagination"
+              class="flex items-center justify-between px-4 py-3 border-t border-white/8 text-xs">
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ PROCESS DETAIL MODAL ═══════════════════ -->
+  <div id="process-detail-modal"
+    class="hidden fixed inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-12 overflow-y-auto">
+    <div
+      class="modal-panel w-full max-w-3xl glass rounded-2xl shadow-2xl opacity-0 translate-y-4 scale-95 transition-all duration-250">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-white/8">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/20 flex items-center justify-center">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+          <h2 class="text-sm font-semibold text-slate-200">Detalle del Proceso</h2>
+        </div>
+        <button id="btn-close-detail"
+          class="w-8 h-8 rounded-lg hover:bg-white/8 flex items-center justify-center text-slate-400 hover:text-slate-200 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div id="process-detail-body" class="p-6 overflow-y-auto max-h-[80vh]"></div>
+    </div>
+  </div>
+
+
+
+  <!-- ════════════ JS MODULES ════════════ -->
+  <script src="./js/data.js"></script>
+  <script src="./js/utils.js"></script>
+  <script src="./js/components/kpiCards.js"></script>
+  <script src="./js/components/charts.js"></script>
+  <script src="./js/components/table.js"></script>
+  <script src="./js/components/filters.js"></script>
+  <script src="./js/components/processDetail.js"></script>
+  <script src="./js/app.js"></script>
+
+  <!-- Inline: post-init stats -->
+  <script>
+    // Extra stats computed after data loads, hooked from app.js
+    const _origInit = init;
+    window.init = async function () {
+      await _origInit();
+
+      // Quick stat counters
+      const fill = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      fill('stat-alta', processesData.filter(p => p.viabilidad === 'Alta').length);
+      fill('stat-media', processesData.filter(p => p.viabilidad === 'Media').length);
+      fill('stat-diario', processesData.filter(p => p.frecuencia === 'Diario').length);
+      // robots is not used anymore in the new mapping but keeping a safe check
+      fill('stat-robots', (processesData || []).reduce((s, p) => s + (p.robots || 0), 0));
+    };
+    function removeFromComparison(id) {
+      selectedForComparison.delete(id);
+      // Uncheck card
+      const card = document.querySelector(`.comparator-card[data-id="${id}"]`);
+      if (card) {
+        card.classList.remove('border-indigo-500/40', 'bg-indigo-500/5');
+        card.querySelector('.comparator-checkbox')?.classList.remove('bg-indigo-500/30', 'border-indigo-400');
+        card.querySelector('.check-icon')?.classList.add('hidden');
+      }
+      updateCompareButton();
+      updateSelectedChips();
+    }
+  </script>
+
+  <!-- ── Dark / Light theme logic ─────────────────────────── -->
+  <script>
+    (function () {
+      const html = document.documentElement;
+      const btn = document.getElementById('btn-theme');
+      const STORAGE_KEY = 'pi-theme';
+
+      // Apply saved preference immediately (before paint)
+      function applyTheme(theme) {
+        if (theme === 'light') {
+          html.classList.add('light');
+          html.classList.remove('dark');
+        } else {
+          html.classList.add('dark');
+          html.classList.remove('light');
+        }
+        // Re-render charts so they pick up new text colours
+        if (typeof updateAllCharts === 'function' && typeof processesData !== 'undefined') {
+          const filtered = typeof filterProcesses === 'function'
+            ? filterProcesses(typeof activeFilters !== 'undefined' ? activeFilters : {})
+            : processesData;
+          // Small delay to let CSS transitions settle first
+          setTimeout(() => updateAllCharts(filtered), 360);
+        }
+      }
+
+      function toggleTheme() {
+        const current = html.classList.contains('light') ? 'light' : 'dark';
+        const next = current === 'light' ? 'dark' : 'light';
+        localStorage.setItem(STORAGE_KEY, next);
+        applyTheme(next);
+      }
+
+      // Init from storage (default: dark)
+      const saved = localStorage.getItem(STORAGE_KEY) || 'dark';
+      applyTheme(saved);
+
+      if (btn) btn.addEventListener('click', toggleTheme);
+    })();
+  </script>
+
+</body>
+
+</html>
