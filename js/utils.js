@@ -32,7 +32,7 @@ function getModelColor(label, index) {
     return MODEL_COLORS[Math.abs(hash) % MODEL_COLORS.length];
 }
 
-// ─── SEMAPHORE BADGE ─────────────────────────────────────────────────────────
+// ─── BADGE HELPERS ───────────────────────────────────────────────────────────
 
 function semaphoreBadge(semaphore, label) {
     const cfg = SEMAPHORE_CONFIG[semaphore] || SEMAPHORE_CONFIG.yellow;
@@ -41,6 +41,45 @@ function semaphoreBadge(semaphore, label) {
     <span class="w-1.5 h-1.5 rounded-full" style="background:${cfg.dot}"></span>
     ${text}
   </span>`;
+}
+
+function priorityBadge(label, showLabel = true) {
+    const colors = {
+        'Alta': SEMAPHORE_CONFIG.green,
+        'Media': SEMAPHORE_CONFIG.yellow,
+        'Baja': SEMAPHORE_CONFIG.red
+    };
+    const cfg = colors[label] || SEMAPHORE_CONFIG.yellow;
+    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${cfg.bg} ${cfg.text} ${cfg.border}">
+      <span class="w-1.5 h-1.5 rounded-full" style="background:${cfg.dot}"></span>
+      ${showLabel ? `Prioridad: ${label}` : label}
+    </span>`;
+}
+
+function complexityBadge(label) {
+    const colors = {
+        'Baja': SEMAPHORE_CONFIG.green,
+        'Media': SEMAPHORE_CONFIG.yellow,
+        'Alta': SEMAPHORE_CONFIG.red
+    };
+    const cfg = colors[label] || SEMAPHORE_CONFIG.yellow;
+    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${cfg.bg} ${cfg.text} ${cfg.border}">
+      <span class="w-1.5 h-1.5 rounded-full" style="background:${cfg.dot}"></span>
+      Complejidad: ${label}
+    </span>`;
+}
+
+function viabilityBadge(label) {
+    const colors = {
+        'Alta': SEMAPHORE_CONFIG.green,
+        'Media': SEMAPHORE_CONFIG.yellow,
+        'Baja': SEMAPHORE_CONFIG.red
+    };
+    const cfg = colors[label] || SEMAPHORE_CONFIG.yellow;
+    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${cfg.bg} ${cfg.text} ${cfg.border}">
+      <span class="w-1.5 h-1.5 rounded-full" style="background:${cfg.dot}"></span>
+      Viabilidad: ${label}
+    </span>`;
 }
 
 // ─── CSV EXPORT ──────────────────────────────────────────────────────────────

@@ -64,8 +64,10 @@ async function init() {
     renderTable(processesData);
     initFilters();
     initDetailModal();
+    initReevaluateModal();
     initNavigation();
     initSidebar();
+    initDashboardGrid();
     updateFilterCount(processesData.length);
 
     // Hide loader

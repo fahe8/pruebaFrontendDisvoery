@@ -24,14 +24,7 @@ function renderKPICards(processes) {
             color: 'violet',
             glow: 'shadow-violet-500/20',
         },
-        {
-            icon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`,
-            label: 'Ponderación Promedio',
-            value: fmt.percent(kpis.avgPonderacion),
-            sub: 'índice de automatización',
-            color: 'emerald',
-            glow: 'shadow-emerald-500/20',
-        },
+
     ];
 
     const colorMap = {

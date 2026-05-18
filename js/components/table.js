@@ -37,26 +37,28 @@ function renderTablePage() {
 
   // Header
   const cols = [
-    { key: 'ranking', label: 'ranking', cls: 'w-16 text-center' },
-    { key: 'nombre', label: 'proceso', cls: 'min-w-[200px]' },
-    { key: 'lineaNegocio', label: 'area', cls: 'min-w-[140px]' },
-    { key: 'responsable', label: 'responsable', cls: 'min-w-[140px]' },
-    { key: 'personas', label: 'personas', cls: 'text-right' },
-    { key: 'transacciones', label: 'transacciones', cls: 'text-right' },
-    { key: 'tmo', label: 'tmo minutos', cls: 'text-right' },
-    { key: 'hhMes', label: 'potencial beneficio mes hh', cls: 'text-right' },
-    { key: 'frecuencia', label: 'frecuencia', cls: '' },
-    { key: 'ponderacion', label: 'ponderacion', cls: 'text-right' },
-    { key: 'viabilidad', label: 'viabilidad', cls: '' },
-    { key: 'pdf', label: 'pdf', cls: 'text-center' },
-    { key: '_actions', label: '', cls: 'w-10 text-center' },
+    { key: 'ranking', label: 'Rk', cls: 'w-10 text-center' },
+    { key: 'nombre', label: 'proceso', cls: 'min-w-[180px]' },
+    { key: 'lineaNegocio', label: 'area', cls: 'min-w-[120px]' },
+    { key: 'responsable', label: 'responsable', cls: 'min-w-[120px]' },
+    { key: 'personas', label: 'pers', cls: 'text-right w-12' },
+    { key: 'transacciones', label: 'trans', cls: 'text-right w-16' },
+    { key: 'tmo', label: 'tmo', cls: 'text-right w-12' },
+    { key: 'hhMes', label: 'beneficio hh', cls: 'text-right w-20' },
+    { key: 'frecuencia', label: 'frec', cls: 'w-20' },
+    { key: 'ponderacion', label: 'ponderacion', cls: 'text-right w-24' },
+    { key: 'roi', label: 'roi', cls: 'text-right w-16' },
+    { key: 'paybackMonths', label: 'payback', cls: 'text-right w-16' },
+    { key: 'prioridadSugerida', label: 'prioridad', cls: 'w-24' },
+    { key: 'pdf', label: 'pdf', cls: 'text-center w-10' },
+    { key: '_actions', label: '', cls: 'w-20 text-center' },
   ];
 
   const headerHTML = cols.map(c => {
     if (c.key === '_actions') return `<th class="${c.cls}"></th>`;
     const active = sortKey === c.key;
     const dir = active ? (sortDir === 'asc' ? '↑' : '↓') : '⇅';
-    return `<th class="${c.cls} px-4 py-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400 cursor-pointer select-none hover:text-slate-200 transition-colors"
+    return `<th class="${c.cls} px-2 py-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400 cursor-pointer select-none hover:text-slate-200 transition-colors"
       data-sort="${c.key}">
       <span class="flex items-center gap-1 ${c.cls.includes('text-right') ? 'justify-end' : ''}">
         ${c.label}
@@ -67,40 +69,51 @@ function renderTablePage() {
 
   const rowsHTML = slice.map(p => `
     <tr class="border-t border-white/5 hover:bg-white/3 transition-colors cursor-pointer group" data-id="${p.id}">
-      <td class="px-4 py-3.5 text-center">
-        <span class="badge-ranking w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mx-auto">${p.ranking}</span>
+      <td class="px-2 py-3 text-center">
+        <span class="badge-ranking w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold mx-auto">${p.ranking}</span>
       </td>
-      <td class="px-4 py-3.5">
+      <td class="px-2 py-3">
         <div class="flex items-center gap-2">
-          ${p.hasAlert ? `<svg class="w-4 h-4 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" title="${p.alertMessage}"><path d="M12 2L1 21h22L12 2zm0 3.45L19.53 19H4.47L12 5.45zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>` : ''}
-          <div class="font-medium text-slate-100 text-sm leading-snug">${truncate(p.nombre, 50)}</div>
+          ${p.hasAlert ? `<svg class="w-3.5 h-3.5 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" title="${p.alertMessage}"><path d="M12 2L1 21h22L12 2zm0 3.45L19.53 19H4.47L12 5.45zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>` : ''}
+          <div class="font-medium text-slate-100 text-xs leading-snug">${truncate(p.nombre, 40)}</div>
         </div>
       </td>
-      <td class="px-4 py-3.5 text-xs text-slate-400">${p.lineaNegocio}</td>
-      <td class="px-4 py-3.5 text-xs text-slate-400">${p.responsable}</td>
-      <td class="px-4 py-3.5 text-right text-sm text-slate-300">${p.personas}</td>
-      <td class="px-4 py-3.5 text-right text-sm text-slate-300">${p.transacciones}</td>
-      <td class="px-4 py-3.5 text-right text-sm text-slate-300">${p.tmo}</td>
-      <td class="px-4 py-3.5 text-right font-semibold text-indigo-300">${fmt.hours(p.hhMes)}</td>
-      <td class="px-4 py-3.5 text-sm text-slate-400">${p.frecuencia}</td>
-      <td class="px-4 py-3.5 text-right">
-        <div class="flex items-center justify-end gap-2">
-          <div class="w-12 h-1.5 rounded-full bg-slate-700 overflow-hidden">
+      <td class="px-2 py-3 text-[10px] text-slate-400">${p.lineaNegocio}</td>
+      <td class="px-2 py-3 text-[10px] text-slate-400">${p.responsable}</td>
+      <td class="px-2 py-3 text-right text-xs text-slate-300">${p.personas}</td>
+      <td class="px-2 py-3 text-right text-xs text-slate-300">${p.transacciones}</td>
+      <td class="px-2 py-3 text-right text-xs text-slate-300">${p.tmo}</td>
+      <td class="px-2 py-3 text-right font-semibold text-indigo-300 text-xs">${fmt.hours(p.hhMes)}</td>
+      <td class="px-2 py-3 text-[10px] text-slate-400 uppercase">${p.frecuencia}</td>
+      <td class="px-2 py-3 text-right">
+        <div class="flex items-center justify-end gap-1.5">
+          <div class="w-8 h-1 rounded-full bg-slate-700 overflow-hidden">
             <div class="h-full rounded-full transition-all" style="width:${p.ponderacion}%;background:${ponderacionColor(p.ponderacion)}"></div>
           </div>
-          <span class="text-[10px] font-semibold" style="color:${ponderacionColor(p.ponderacion)}">${fmt.percent(p.ponderacion)}</span>
+          <span class="text-[9px] font-semibold" style="color:${ponderacionColor(p.ponderacion)}">${fmt.percent(p.ponderacion)}</span>
         </div>
       </td>
-      <td class="px-4 py-3.5">
-        ${semaphoreBadge(p.semaphore, p.viabilidad)}
+      <td class="px-2 py-3 text-right text-xs ${p.roi > 0 ? 'text-emerald-400 font-bold' : 'text-slate-500'}">
+        ${p.roi > 0 ? fmt.percent(p.roi) : 'N/A'}
       </td>
-      <td class="px-4 py-3.5 text-center">
-        <span class="text-xs ${p.pdf === 'Si' ? 'text-emerald-400 font-bold' : 'text-slate-500'}">${p.pdf}</span>
+      <td class="px-2 py-3 text-right text-xs ${p.paybackMonths > 0 ? 'text-amber-400 font-bold' : 'text-slate-500'}">
+        ${p.paybackMonths > 0 ? p.paybackMonths.toFixed(1) + 'm' : 'N/A'}
       </td>
-      <td class="px-4 py-3.5 text-center">
-        <button class="btn-detail opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/40 flex items-center justify-center text-indigo-400" data-id="${p.id}" title="Ver detalle">
-          <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-        </button>
+      <td class="px-2 py-3">
+        ${priorityBadge(p.prioridadSugerida, false)}
+      </td>
+      <td class="px-2 py-3 text-center">
+        <span class="text-[10px] ${p.pdf === 'Si' ? 'text-emerald-400 font-bold' : 'text-slate-500'}">${p.pdf}</span>
+      </td>
+      <td class="px-2 py-3 text-center">
+        <div class="flex items-center justify-center gap-1">
+          <button class="btn-reevaluate opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 rounded bg-emerald-500/20 hover:bg-emerald-500/40 flex items-center justify-center text-emerald-400" data-id="${p.id}" title="Re-evaluar con IA">
+            <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </button>
+          <button class="btn-detail opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 rounded bg-indigo-500/20 hover:bg-indigo-500/40 flex items-center justify-center text-indigo-400" data-id="${p.id}" title="Ver detalle">
+            <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
       </td>
     </tr>
   `).join('');
@@ -130,6 +143,11 @@ function renderTablePage() {
   document.querySelectorAll('#processes-table tr[data-id]').forEach(row => {
     row.addEventListener('click', (e) => {
       if (e.target.closest('.btn-comparator-check')) return;
+      if (e.target.closest('.btn-reevaluate')) {
+        const id = parseInt(e.target.closest('.btn-reevaluate').dataset.id);
+        openReevaluateModal(id);
+        return;
+      }
       const id = parseInt(row.dataset.id);
       openProcessDetail(id);
     });

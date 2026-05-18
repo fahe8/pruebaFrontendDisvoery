@@ -1,64 +1,20 @@
 [
   {
+    "id": 14,
+    "excel_response": null,
+    "excelResponseId": 14,
     "ranking_factibilidad": 1,
     "ponderacion_factibilidad": 81.4,
-    "resumen_ejecutivo": "El proceso de revisión y gestión del uso de licencias Microsoft tiene un alto potencial de automatización debido a su frecuencia diaria, alta repetitividad y reglas bien definidas. La automatización puede optimizar recursos, reducir costos asociados al licenciamiento y liberar tiempo operativo del equipo. Sin embargo, la ausencia de un stack tecnológico definido requiere considerar herramientas ampliamente compatibles y flexibles.",
+    "resumen_ejecutivo": "El proceso de revisión y desmontaje de licencias Microsoft por desuso tiene un alto potencial de automatización debido a su frecuencia diaria, estructura estandarizada y reglas claras. La automatización puede optimizar recursos, reducir costos y liberar tiempo de los colaboradores. Aunque no se especifica un stack tecnológico, se pueden implementar soluciones genéricas compatibles con Microsoft Tenant y sistemas de autenticación como Authenticator.",
     "viabilidad": "Alta",
-    "soluciones_recomendadas": [
-      {
-        "tipo": "RPA",
-        "descripcion": "Un bot RPA puede automatizar la revisión diaria del uso de licencias Microsoft. El bot se conectaría al tenant de Microsoft utilizando credenciales seguras y autenticación multifactor (Authenticator). Extraería datos de uso de licencias y características activas, comparándolos con reglas predefinidas para identificar licencias en desuso. Posteriormente, el bot generaría un reporte detallado con las licencias candidatas para desactivación y, si se autoriza, procederá a desactivarlas automáticamente. El bot incluiría validaciones para evitar errores, como verificar que las licencias no estén asociadas a usuarios críticos. Los resultados se registrarían en un log centralizado y se enviarían notificaciones al equipo responsable. La arquitectura incluiría un bot RPA, integraciones con APIs de Microsoft y un sistema de almacenamiento para logs y reportes. Los riesgos incluyen posibles errores en la identificación de licencias críticas, mitigables con reglas de negocio robustas y pruebas exhaustivas. El éxito se medirá por la reducción de costos en licencias y la precisión en la identificación de licencias en desuso.",
-        "herramientas_sugeridas": [
-          "UiPath",
-          "Automation Anywhere",
-          "Rocketbot",
-          "Power Automate"
-        ]
-      },
-      {
-        "tipo": "Low Code",
-        "descripcion": "Una solución basada en una plataforma Low Code puede desarrollar una aplicación que automatice la gestión de licencias Microsoft. La aplicación se conectaría al tenant de Microsoft mediante APIs para extraer datos de uso de licencias. Los datos se procesarían en tiempo real para identificar patrones de desuso, aplicando reglas predefinidas. La interfaz permitiría al equipo revisar y aprobar las acciones sugeridas, como la desactivación de licencias. La aplicación generaría reportes automáticos y enviaría alertas por correo electrónico sobre licencias en desuso. La arquitectura incluiría una plataforma Low Code, integraciones con APIs de Microsoft y un módulo de notificaciones. Los riesgos incluyen la dependencia de la calidad de los datos extraídos y la necesidad de configurar correctamente las reglas de negocio. El éxito se medirá por la reducción de costos y la facilidad de uso de la aplicación.",
-        "herramientas_sugeridas": [
-          "Microsoft Power Apps",
-          "OutSystems",
-          "Mendix"
-        ]
-      }
-    ],
     "complejidad_implementacion": "Media",
     "prioridad": "Alta",
-    "comportamiento_proceso": {
-      "Proceso": "Uso licenciamiento Microsoft",
-      "Línea de negocio": "Tecnología",
-      "Responsable": "Andrés Quintero",
-      "Correo": "aquinterova@compensar.com",
-      "Descripcion": "La idea es complementar el licenciamiento Microsoft para los colaboradores a través del bot con la revisión del uso y desmontaje de características o licencias por desuso",
-      "tiempo_raw": "15 min ",
-      "transacciones_raw": "5",
-      "pdf": "No",
-      "PERSONAS": 4,
-      "TRANSACCIONES PO": 5,
-      "TMO MINUTOS": 15,
-      "FACTOR FRECUENCIA": 20,
-      "POTENCIAL BENEFICIO MES HH": 100,
-      "FRECUENCIA": "Diario",
-      "FLAG ALERTA": false,
-      "AVISO ALERTA": "",
-      "Tamaño": "Medio",
-      "estandarizacion_pct": 85,
-      "score_automatizacion": 79,
-      "prioridad_sugerida": "Alta"
-    }
-  },
-  {
-    "ranking_factibilidad": 2,
-    "ponderacion_factibilidad": 76.6,
-    "resumen_ejecutivo": "El proceso de envío de correos y publicación de autorización de cambios estándar, normal y de emergencia presenta una alta carga operativa diaria, involucrando múltiples personas y herramientas como BMC Helix, Excel y Outlook. La frecuencia diaria y el volumen de transacciones hacen que este proceso sea repetitivo y altamente estandarizado, con un porcentaje de estandarización del 85%. La automatización puede generar un ahorro significativo en tiempo y esfuerzo, eliminando tareas manuales y mejorando la eficiencia operativa.",
-    "viabilidad": "Alta",
+    "roi": 4,
+    "payback_months": 3,
     "soluciones_recomendadas": [
       {
         "tipo": "RPA",
-        "descripcion": "Un bot RPA puede automatizar el proceso completo. El flujo inicia con la descarga automática del reporte de cambios desde BMC Helix utilizando las credenciales del usuario. Luego, el bot procesa los datos descargados y construye la plantilla en Excel según las reglas predefinidas, incluyendo validaciones de formato y contenido. Posteriormente, el bot genera correos electrónicos en Outlook, adjuntando la plantilla y enviándolos a los destinatarios correspondientes según los horarios de programación. El bot incluye manejo de errores para casos de fallos en la descarga o envío, notificando al usuario mediante un correo de alerta. La arquitectura incluye un bot conectado a BMC Helix mediante API o interfaz, integración con Excel para manipulación de datos y conexión con Outlook para envío de correos. Los criterios de éxito incluyen la reducción del tiempo de ejecución a menos de 30 minutos por día y la eliminación de errores humanos en el proceso.",
+        "descripcion": "Un bot RPA puede ser configurado para conectarse al Tenant de Microsoft utilizando credenciales seguras y autenticación multifactor (Authenticator). El bot iniciará diariamente y revisará el uso de licencias asignadas a los colaboradores, identificando aquellas que no han sido utilizadas en un periodo definido. Utilizando reglas preconfiguradas, el bot procederá a desmontar las licencias por desuso y generar un reporte detallado con las acciones realizadas. El flujo incluye validaciones para evitar errores, como verificar que las licencias no estén asociadas a roles críticos. En caso de fallos en la conexión o autenticación, el bot generará alertas para intervención manual. Los resultados se almacenarán en una base de datos o se enviarán por correo electrónico al responsable del proceso. La arquitectura incluye el bot RPA, conexión API al Tenant de Microsoft, y un sistema de generación de reportes.",
         "herramientas_sugeridas": [
           "UiPath",
           "Automation Anywhere",
@@ -68,154 +24,232 @@
       },
       {
         "tipo": "Power Platform",
-        "descripcion": "Utilizando Power Automate, se puede configurar un flujo automatizado que se active diariamente. El flujo comienza con la conexión a BMC Helix para descargar el reporte de cambios mediante API o conectores disponibles. Luego, los datos son procesados automáticamente en Excel Online, donde se aplica la plantilla predefinida. Posteriormente, el flujo genera correos electrónicos en Outlook, adjuntando la plantilla y enviándolos a los destinatarios según los horarios establecidos. El flujo incluye validaciones para garantizar que los datos sean correctos y completos antes de enviarlos. En caso de errores, se genera una notificación automática al responsable del proceso. La arquitectura incluye conectores de Power Automate para BMC Helix, Excel Online y Outlook. Los criterios de éxito incluyen la ejecución diaria sin intervención manual y la generación de reportes de actividad para seguimiento.",
+        "descripcion": "Se puede implementar una solución utilizando Power Automate para automatizar la revisión de licencias en el Tenant de Microsoft. El flujo se activará diariamente y conectará con el Tenant mediante APIs disponibles, autenticándose con Authenticator. El sistema analizará el uso de licencias basado en datos de actividad y desmontará aquellas que cumplan con los criterios de desuso. Los resultados se registrarán en una base de datos de SharePoint o se enviarán por correo electrónico al responsable del proceso. El flujo incluirá validaciones para evitar desmontajes erróneos y manejará excepciones mediante alertas automáticas. La solución también puede integrarse con Power BI para generar reportes visuales sobre el uso de licencias y el ahorro generado.",
         "herramientas_sugeridas": [
           "Power Automate",
           "Power BI",
-          "Microsoft Excel Online",
-          "Outlook"
-        ]
-      }
-    ],
-    "complejidad_implementacion": "Media",
-    "prioridad": "Alta",
-    "comportamiento_proceso": {
-      "Proceso": "Envió de correos y publicación de autorización de cambios estándar normal y emergencia",
-      "Línea de negocio": "Servicios TI - Gestión de Cambios",
-      "Responsable": "Yerly Katerine Ibañez G",
-      "Correo": "ykibanezg@compensar.com",
-      "Descripcion": "1.Gestionar cambios en herramienta de gestión manual (asignación de tareas)\n2. Descarga del reporte de cambios estándar normal y emergencia\n3. Construcción de plantilla de cambios en excel para envió del correo según los horarios de programación\n4. Envió de correo a todos los involucrados",
-      "tiempo_raw": "180",
-      "transacciones_raw": "20",
-      "pdf": "No",
-      "PERSONAS": 3,
-      "TRANSACCIONES PO": 20,
-      "TMO MINUTOS": 180,
-      "FACTOR FRECUENCIA": 20,
-      "POTENCIAL BENEFICIO MES HH": 3600,
-      "FRECUENCIA": "Diario",
-      "FLAG ALERTA": true,
-      "AVISO ALERTA": "La carga mensual estimada (3600.00 hh) supera la capacidad mensual de las personas reportadas (480.00 hh). | El POTENCIAL BENEFICIO MES HH (3600.00) supera la capacidad mensual estimada del equipo (480.00 hh).",
-      "Tamaño": "Muy largo",
-      "estandarizacion_pct": 85,
-      "score_automatizacion": 71,
-      "prioridad_sugerida": "Media"
-    }
-  },
-  {
-    "ranking_factibilidad": 3,
-    "ponderacion_factibilidad": 76,
-    "resumen_ejecutivo": "El proceso 'Registro documentación entrega del servicio' presenta una alta viabilidad de automatización debido a su alta repetitividad, reglas claras y datos estructurados. Involucra tareas manuales como descarga de archivos, registro en Excel, nomenclatura y almacenamiento en un servidor de archivos, lo que lo hace propenso a errores humanos y consume tiempo innecesario. La automatización puede generar beneficios significativos en términos de eficiencia, reducción de errores y confiabilidad del inventario de documentos.",
-    "viabilidad": "Alta",
-    "soluciones_recomendadas": [
-      {
-        "tipo": "RPA",
-        "descripcion": "Un bot RPA puede automatizar el flujo completo del proceso. El bot se activará al detectar nuevos documentos en los medios de ingreso (correo, ADS o Power Automate). Descargará los archivos y extraerá los datos necesarios para completar automáticamente las columnas del archivo de control en Excel, utilizando reglas predefinidas para validar y formatear la información. Posteriormente, el bot generará la nomenclatura correspondiente y moverá los documentos al servidor de archivos en la ruta especificada. Finalmente, enviará una notificación de VoBo a través del medio de ingreso original. El bot incluirá validaciones para asegurar que los datos sean consistentes y manejará errores como archivos corruptos o datos incompletos, generando logs detallados para auditoría. La arquitectura incluirá un bot RPA, integraciones con correo electrónico, ADS, Power Automate y Excel, y acceso al servidor de archivos.",
-        "herramientas_sugeridas": [
-          "UiPath",
-          "Automation Anywhere",
-          "Rocketbot",
-          "Power Automate Desktop"
-        ]
-      },
-      {
-        "tipo": "Power Platform",
-        "descripcion": "Utilizando Power Automate, se puede diseñar un flujo automatizado que gestione el proceso. El flujo se activará al recibir documentos en los medios de ingreso (correo, ADS o Power Automate). Los archivos serán descargados automáticamente y los datos relevantes serán extraídos y registrados en una tabla de Excel alojada en SharePoint o OneDrive. El flujo generará la nomenclatura correspondiente y moverá los documentos al servidor de archivos mediante una conexión configurada. Finalmente, enviará una notificación de VoBo al remitente original. El flujo incluirá validaciones para asegurar que los datos sean correctos y manejará excepciones como archivos no compatibles, notificando al usuario en caso de errores. La arquitectura incluirá Power Automate, integraciones con correo electrónico, ADS, Excel y el servidor de archivos.",
-        "herramientas_sugeridas": [
-          "Power Automate",
-          "SharePoint",
-          "OneDrive",
-          "Microsoft Excel Online"
-        ]
-      }
-    ],
-    "complejidad_implementacion": "Media",
-    "prioridad": "Alta",
-    "comportamiento_proceso": {
-      "Proceso": "Registro documentación entrega del servicio",
-      "Línea de negocio": "Servicios de TI – Gestionar Tecnología de la Información",
-      "Responsable": "Juan Carlos Galindo Velásquez",
-      "Correo": "jcgalindov@compensar.com",
-      "Descripcion": "1. se recibe la documentación, ya sea total o parcial (Handover, Flujo Modelo Operativo, Ficha técnica, Lista de Chequeo Nivel 1-2, Documento de Errores Conocidos, Diagramas (Arquitectura/Infraestructura), Manuales (Usuario/ Técnico / Instalación), Presentación / actas, ANS), de parte del especialista de infraestructura, actualmente se tienen 3 medios de ingreso (correo, ads, flujo power automate) \n2. se descargan los archivos localmente\n3. en base a cada archivo, se diligencia un registro en una data de control de Excel, la cual tiene varias columnas, las cuales se diligencian manualmente (Código CI, Nombre(enviaron), Nombre, Versión, Tipo, # Revisión, ESTADO, Fecha Inicio, Fecha Salida, Unidad  de Negocio, Tipo Aplicación, Responsable, Observación, Proveedor, Supervisor Técnico, Medio de ingreso, Fecha Ingreso) algunas están formuladas, ese archivo sirve como inventario de consulta, para saber la cantidad de documentación que se revisa, su estado, etc\n4. una vez se confirma que el documento recibido esta en versión final, se procede a colocarle la nomenclatura, que la da una columna de la data de excel y posterior a esto se copia el documento y se pega en la ruta respectiva del file server (\\\\192.168.10.194\\desaprod$\\prod\\hco)\n5. al final se da el vobo bueno con una plantilla, la cual se coloca ya sea vía correo o en ads o en el flujo de power automate",
-      "tiempo_raw": "5 min",
-      "transacciones_raw": "6",
-      "pdf": "No",
-      "PERSONAS": 1,
-      "TRANSACCIONES PO": 6,
-      "TMO MINUTOS": 5,
-      "FACTOR FRECUENCIA": 20,
-      "POTENCIAL BENEFICIO MES HH": 10,
-      "FRECUENCIA": "Diario",
-      "FLAG ALERTA": false,
-      "AVISO ALERTA": "",
-      "Tamaño": "Corto",
-      "estandarizacion_pct": 85,
-      "score_automatizacion": 70,
-      "prioridad_sugerida": "Media"
-    }
-  },
-  {
-    "ranking_factibilidad": 4,
-    "ponderacion_factibilidad": 73.9,
-    "resumen_ejecutivo": "El proceso de gestión de incidentes mayores en el área de Servicios de TI presenta una alta repetitividad y un nivel de estandarización del 85%, lo que lo hace viable para la automatización. Actualmente, el proceso es manual, lo que genera demoras, riesgos de omisiones y falta de trazabilidad. La automatización puede optimizar tiempos de respuesta, mejorar la trazabilidad y reducir errores manuales. Dado que no se especifica un stack tecnológico disponible, se consideran herramientas ampliamente utilizadas y flexibles para la implementación.",
-    "viabilidad": "Alta",
-    "soluciones_recomendadas": [
-      {
-        "tipo": "RPA",
-        "descripcion": "Un bot RPA puede automatizar la gestión integral de incidentes mayores. El flujo comenzaría con la recepción de un trigger, como un correo electrónico o una notificación en la plataforma ITSM (BMC). El bot extraería los datos del incidente (fecha, hora, impacto, servicios afectados) y generaría automáticamente la comunicación oficial utilizando plantillas predefinidas. Luego, identificaría a los responsables involucrados y enviaría las convocatorias para las mesas de crisis mediante correo electrónico o herramientas de colaboración. Durante las mesas de crisis, el bot podría registrar automáticamente las actas en un formato estandarizado y almacenarlas en un repositorio central. Posteriormente, gestionaría el seguimiento de compromisos mediante recordatorios automáticos y validaría el cumplimiento de las actividades. Finalmente, el bot consolidaría la información del informe de causa raíz y generaría reportes finales para su divulgación. El bot incluiría validaciones para asegurar la integridad de los datos y manejaría errores mediante notificaciones al equipo responsable. Los logs de actividad se almacenarían para auditoría y trazabilidad.",
-        "herramientas_sugeridas": [
-          "UiPath",
-          "Automation Anywhere",
-          "Rocketbot",
-          "Power Automate"
-        ]
-      },
-      {
-        "tipo": "Power Platform",
-        "descripcion": "Utilizando Power Platform, se puede diseñar una solución integrada que automatice el flujo de gestión de incidentes mayores. Power Automate se encargaría de orquestar el proceso, iniciando con un trigger como un correo en Outlook o un registro en BMC. Los datos del incidente se extraerían y almacenarían en una base de datos centralizada como Dataverse. Power Apps permitiría a los usuarios interactuar con el sistema para validar o actualizar información, mientras que Power Automate enviaría notificaciones y recordatorios automáticos a los responsables. Power BI se utilizaría para generar dashboards en tiempo real que muestren el estado de los incidentes, el cumplimiento de compromisos y los tiempos de respuesta. La solución incluiría validaciones para asegurar que los datos ingresados sean correctos y manejaría errores mediante alertas al equipo de TI. Los reportes y actas se generarían automáticamente y se almacenarían en SharePoint para su consulta.",
-        "herramientas_sugeridas": [
-          "Power Automate",
-          "Power Apps",
-          "Power BI",
-          "Dataverse",
+          "Microsoft Graph API",
           "SharePoint"
         ]
       }
     ],
-    "complejidad_implementacion": "Media",
-    "prioridad": "Alta",
     "comportamiento_proceso": {
-      "Proceso": "Incidentes mayores",
-      "Línea de negocio": "Servicios de Ti",
-      "Responsable": "Andrés Mauricio Madrid Flórez",
-      "Correo": "Ammadridf@compensar.com",
-      "Descripcion": "El proceso que se desea automatizar corresponde a la gestión integral de incidentes mayores, abarcando desde la comunicación inicial hasta el seguimiento de compromisos y cierre. Actualmente, estas actividades se realizan de forma manual, lo que genera demoras, riesgo de omisiones y falta de trazabilidad en momentos críticos.\n\nEl flujo incluye la creación y envío de la comunicación oficial del incidente mayor, la identificación de los responsables que deben participar en las mesas de crisis, la elaboración de actas, y la coordinación de espacios de trabajo para la atención del incidente. Asimismo, contempla la solicitud, revisión y divulgación del informe de causa raíz, junto con la generación de comunicaciones de seguimiento para asegurar el cumplimiento de los compromisos definidos.\n\nAdicionalmente, el proceso considera la gestión de mesas de trabajo orientadas a la identificación de la causa raíz o la implementación de soluciones temporales, y, en caso de ser necesario, la transición del incidente a la gestión de problemas mediante su respectiva socialización.\n\nLa automatización de este proceso busca optimizar tiempos de respuesta, mejorar la trazabilidad de la información, asegurar la correcta ejecución de cada etapa y fortalecer el control y seguimiento de los incidentes mayores.",
-      "tiempo_raw": "El tiempo promedio por ejecución, por persona, es de 60 a 90 minutos, considerando la frecuencia de atención de incidentes mayores. Este tiempo incluye la elaboración de la comunicación inicial, coordinación de participantes, desarrollo de mesas de crisis, generación de actas, seguimiento de compromisos y revisión del informe de causa raíz.  Cabe resaltar que este tiempo puede incrementarse dependiendo de la criticidad del incidente y la cantidad de mesas de trabajo requeridas.",
-      "transacciones_raw": "En promedio, por cada ejecución una persona gestiona 1 caso o registro. Considerando la frecuencia mensual, se atienden aproximadamente hasta 13 incidentes mayores al mes, cada uno con gestión individual y seguimiento específico hasta su cierre.",
-      "pdf": "Si",
-      "PERSONAS": 3,
-      "TRANSACCIONES PO": 1,
-      "TMO MINUTOS": 75,
-      "FACTOR FRECUENCIA": 20,
-      "POTENCIAL BENEFICIO MES HH": 75,
-      "FRECUENCIA": "Diario",
-      "FLAG ALERTA": false,
-      "AVISO ALERTA": "",
+      "pdf": "No",
+      "Correo": "aquinterova@compensar.com",
+      "Proceso": "Uso licenciamiento Microsoft",
       "Tamaño": "Medio",
+      "PERSONAS": 4,
+      "FRECUENCIA": "Diario",
+      "tiempo_raw": "15 min ",
+      "Descripcion": "La idea es complementar el licenciamiento Microsoft para los colaboradores a través del bot con la revisión del uso y desmontaje de características o licencias por desuso",
+      "FLAG ALERTA": false,
+      "Responsable": "Andrés Quintero",
+      "TMO MINUTOS": 15,
+      "AVISO ALERTA": "",
+      "TRANSACCIONES PO": 5,
+      "FACTOR FRECUENCIA": 20,
+      "Línea de negocio": "Tecnología",
+      "transacciones_raw": "5",
+      "prioridad_sugerida": "Alta",
       "estandarizacion_pct": 85,
-      "score_automatizacion": 66.5,
-      "prioridad_sugerida": "Media"
-    }
+      "score_automatizacion": 79,
+      "POTENCIAL BENEFICIO MES HH": 100
+    },
+    "created_at": "2026-05-13T16:49:38.020000Z",
+    "updated_at": "2026-05-13T16:49:38.020000Z"
   },
   {
+    "id": 15,
+    "excel_response": null,
+    "excelResponseId": 15,
+    "ranking_factibilidad": 2,
+    "ponderacion_factibilidad": 76.6,
+    "resumen_ejecutivo": "El proceso de envío de correos y publicación de autorización de cambios estándar, normal y emergencia presenta una alta carga operativa debido a su frecuencia diaria y duración de 180 minutos por ejecución. Involucra múltiples herramientas como BMC Helix, Excel y Outlook, y tiene un nivel de estandarización del 85%. La automatización de este proceso puede generar un ahorro significativo en horas hombre, mejorar la eficiencia operativa y reducir errores manuales. Sin embargo, el stack tecnológico de la empresa no está definido, lo que limita la recomendación de herramientas específicas.",
+    "viabilidad": "Alta",
+    "complejidad_implementacion": "Media",
+    "prioridad": "Alta",
+    "roi": 3,
+    "payback_months": 4,
+    "soluciones_recomendadas": [
+      {
+        "tipo": "RPA",
+        "descripcion": "Un bot RPA puede automatizar el proceso completo. El flujo inicia con la descarga automática del reporte de cambios desde la herramienta BMC Helix mediante integración directa o simulación de usuario. Luego, el bot procesa los datos descargados y construye la plantilla en Excel siguiendo las reglas de negocio predefinidas, como horarios de programación y formato estandarizado. Posteriormente, el bot envía correos electrónicos a los involucrados utilizando Outlook, asegurando que los destinatarios y el contenido cumplan con las especificaciones. El bot incluye validaciones para garantizar que los datos sean correctos antes de enviarlos y genera un log detallado de cada ejecución, incluyendo errores y excepciones. La arquitectura incluye un servidor RPA, conectores para BMC Helix y Outlook, y un sistema de monitoreo para garantizar la continuidad operativa. Los riesgos incluyen posibles cambios en la interfaz de BMC Helix y la necesidad de permisos de acceso adecuados.",
+        "herramientas_sugeridas": [
+          "UiPath",
+          "Automation Anywhere",
+          "Rocketbot",
+          "Power Automate"
+        ]
+      },
+      {
+        "tipo": "Power Platform",
+        "descripcion": "La solución utiliza Power Automate para integrar las herramientas involucradas. El flujo comienza con un trigger programado que descarga automáticamente el reporte de cambios desde BMC Helix mediante conectores disponibles o APIs. Luego, Power Automate procesa los datos y genera la plantilla en Excel utilizando acciones preconfiguradas. El envío de correos se realiza mediante conectores de Outlook, asegurando que los destinatarios y el contenido sean correctos. La solución incluye validaciones para garantizar la integridad de los datos y notifica al usuario en caso de errores. Además, se puede integrar con Power BI para generar reportes visuales sobre el estado de los cambios y la eficiencia del proceso. La arquitectura incluye conectores de Power Automate, almacenamiento en SharePoint para las plantillas generadas y un dashboard en Power BI para monitoreo. Los riesgos incluyen la dependencia de conectores y posibles limitaciones en la integración con BMC Helix.",
+        "herramientas_sugeridas": [
+          "Power Automate",
+          "Power BI",
+          "SharePoint"
+        ]
+      }
+    ],
+    "comportamiento_proceso": {
+      "pdf": "No",
+      "Correo": "ykibanezg@compensar.com",
+      "Proceso": "Envió de correos y publicación de autorización de cambios estándar normal y emergencia",
+      "Tamaño": "Muy largo",
+      "PERSONAS": 3,
+      "FRECUENCIA": "Diario",
+      "tiempo_raw": "180",
+      "Descripcion": "1.Gestionar cambios en herramienta de gestión manual (asignación de tareas)\n2. Descarga del reporte de cambios estándar normal y emergencia\n3. Construcción de plantilla de cambios en excel para envió del correo según los horarios de programación\n4. Envió de correo a todos los involucrados",
+      "FLAG ALERTA": true,
+      "Responsable": "Yerly Katerine Ibañez G",
+      "TMO MINUTOS": 180,
+      "AVISO ALERTA": "La carga mensual estimada (3600.00 hh) supera la capacidad mensual de las personas reportadas (480.00 hh). | El POTENCIAL BENEFICIO MES HH (3600.00) supera la capacidad mensual estimada del equipo (480.00 hh).",
+      "TRANSACCIONES PO": 20,
+      "FACTOR FRECUENCIA": 20,
+      "Línea de negocio": "Servicios TI - Gestión de Cambios",
+      "transacciones_raw": "20",
+      "prioridad_sugerida": "Media",
+      "estandarizacion_pct": 85,
+      "score_automatizacion": 71,
+      "POTENCIAL BENEFICIO MES HH": 3600
+    },
+    "created_at": "2026-05-13T16:49:38.045000Z",
+    "updated_at": "2026-05-13T16:49:38.045000Z"
+  },
+  {
+    "id": 16,
+    "excel_response": null,
+    "excelResponseId": 16,
+    "ranking_factibilidad": 3,
+    "ponderacion_factibilidad": 74,
+    "resumen_ejecutivo": "El proceso de registro de documentación para la entrega del servicio presenta un alto nivel de repetitividad y estandarización, con una frecuencia diaria y un volumen moderado de transacciones. La actividad involucra múltiples sistemas como correo electrónico, ADS, Power Automate, Excel y un file server, lo que permite una integración viable para automatización. La automatización puede reducir significativamente el esfuerzo manual, mejorar la consistencia de los datos y minimizar errores humanos, generando un inventario confiable y datos consistentes para reportes.",
+    "viabilidad": "Alta",
+    "complejidad_implementacion": "Media",
+    "prioridad": "Media",
+    "roi": 2.5,
+    "payback_months": 6,
+    "soluciones_recomendadas": [
+      {
+        "tipo": "RPA",
+        "descripcion": "Un bot RPA puede automatizar el proceso completo de registro de documentación. El flujo inicia con la monitorización de los tres medios de ingreso (correo, ADS y Power Automate) para identificar nuevos documentos. El bot descarga los archivos y extrae los datos relevantes utilizando reglas predefinidas. Luego, actualiza automáticamente la data de control en Excel, aplicando las fórmulas necesarias y validando la integridad de los datos. Posteriormente, el bot asigna la nomenclatura correspondiente y mueve los documentos al file server en la ruta especificada. Finalmente, genera el visto bueno utilizando la plantilla predefinida y lo envía por correo o lo registra en ADS o Power Automate según el medio de ingreso original. El bot incluye validaciones para garantizar que los documentos estén en versión final y maneja errores como archivos corruptos o datos incompletos. Se generan logs detallados de cada ejecución y notificaciones en caso de fallos. La arquitectura incluye un bot RPA, integraciones con correo electrónico, ADS, Power Automate y el file server, y una base de datos para logs y reportes. Los criterios de éxito incluyen la reducción del tiempo de ejecución a menos de 1 minuto por transacción, la eliminación de errores humanos y la generación de reportes confiables.",
+        "herramientas_sugeridas": [
+          "UiPath",
+          "Automation Anywhere",
+          "Rocketbot",
+          "Power Automate"
+        ]
+      },
+      {
+        "tipo": "Power Platform",
+        "descripcion": "Se puede implementar una solución basada en Power Automate para gestionar el flujo de documentación. El proceso comienza con la creación de un flujo automatizado que detecta nuevos documentos en los medios de ingreso (correo, ADS y Power Automate). El flujo descarga los archivos y utiliza conectores para extraer los datos necesarios. Luego, actualiza automáticamente la data de control en Excel alojada en SharePoint o OneDrive, aplicando las fórmulas requeridas. Una vez confirmada la versión final del documento, el flujo asigna la nomenclatura y mueve los archivos al file server utilizando conectores de red. Finalmente, genera el visto bueno en formato estándar y lo envía por correo o lo registra en ADS o Power Automate según el origen del documento. La solución incluye validaciones para garantizar la integridad de los datos y el estado final de los documentos, además de manejar errores como archivos no compatibles. Se generan reportes automáticos y notificaciones en caso de fallos. La arquitectura incluye Power Automate, conectores para correo, ADS, Excel y el file server, y un sistema de reportes en Power BI. Los criterios de éxito incluyen la automatización del 100% de las tareas repetitivas, la reducción de errores y la generación de reportes en tiempo real.",
+        "herramientas_sugeridas": [
+          "Power Automate",
+          "SharePoint",
+          "Excel Online",
+          "Power BI"
+        ]
+      }
+    ],
+    "comportamiento_proceso": {
+      "pdf": "No",
+      "Correo": "jcgalindov@compensar.com",
+      "Proceso": "Registro documentación entrega del servicio",
+      "Tamaño": "Corto",
+      "PERSONAS": 1,
+      "FRECUENCIA": "Diario",
+      "tiempo_raw": "5 min",
+      "Descripcion": "1. se recibe la documentación, ya sea total o parcial (Handover, Flujo Modelo Operativo, Ficha técnica, Lista de Chequeo Nivel 1-2, Documento de Errores Conocidos, Diagramas (Arquitectura/Infraestructura), Manuales (Usuario/ Técnico / Instalación), Presentación / actas, ANS), de parte del especialista de infraestructura, actualmente se tienen 3 medios de ingreso (correo, ads, flujo power automate) \n2. se descargan los archivos localmente\n3. en base a cada archivo, se diligencia un registro en una data de control de Excel, la cual tiene varias columnas, las cuales se diligencian manualmente (Código CI, Nombre(enviaron), Nombre, Versión, Tipo, # Revisión, ESTADO, Fecha Inicio, Fecha Salida, Unidad  de Negocio, Tipo Aplicación, Responsable, Observación, Proveedor, Supervisor Técnico, Medio de ingreso, Fecha Ingreso) algunas están formuladas, ese archivo sirve como inventario de consulta, para saber la cantidad de documentación que se revisa, su estado, etc\n4. una vez se confirma que el documento recibido esta en versión final, se procede a colocarle la nomenclatura, que la da una columna de la data de excel y posterior a esto se copia el documento y se pega en la ruta respectiva del file server (\\\\192.168.10.194\\desaprod$\\prod\\hco)\n5. al final se da el vobo bueno con una plantilla, la cual se coloca ya sea vía correo o en ads o en el flujo de power automate",
+      "FLAG ALERTA": false,
+      "Responsable": "Juan Carlos Galindo Velásquez",
+      "TMO MINUTOS": 5,
+      "AVISO ALERTA": "",
+      "TRANSACCIONES PO": 6,
+      "FACTOR FRECUENCIA": 20,
+      "Línea de negocio": "Servicios de TI – Gestionar Tecnología de la Información",
+      "transacciones_raw": "6",
+      "prioridad_sugerida": "Media",
+      "estandarizacion_pct": 85,
+      "score_automatizacion": 70,
+      "POTENCIAL BENEFICIO MES HH": 10
+    },
+    "created_at": "2026-05-13T16:49:38.057000Z",
+    "updated_at": "2026-05-13T16:49:38.057000Z"
+  },
+  {
+    "id": 17,
+    "excel_response": null,
+    "excelResponseId": 17,
+    "ranking_factibilidad": 4,
+    "ponderacion_factibilidad": 73,
+    "resumen_ejecutivo": "El proceso de gestión de incidentes mayores en el área de Servicios de TI presenta una alta repetitividad y estandarización, con un impacto significativo en la eficiencia operativa y la trazabilidad de información crítica. Actualmente, el proceso es manual, lo que genera demoras, riesgos de omisiones y falta de control en momentos críticos. La automatización puede optimizar tiempos de respuesta, mejorar la calidad del servicio y reducir errores manuales, asegurando un seguimiento estructurado de cada etapa del flujo.",
+    "viabilidad": "Alta",
+    "complejidad_implementacion": "Media",
+    "prioridad": "Alta",
+    "roi": 2.5,
+    "payback_months": 6,
+    "soluciones_recomendadas": [
+      {
+        "tipo": "RPA",
+        "descripcion": "Un bot RPA puede automatizar la gestión integral de incidentes mayores. El flujo inicia con la recepción de la información del incidente desde la plataforma ITSM (como BMC) o correo electrónico. El bot extrae los datos relevantes del incidente, valida la información y genera automáticamente la comunicación oficial utilizando plantillas predefinidas. Posteriormente, identifica a los responsables involucrados y envía convocatorias para las mesas de crisis mediante correo electrónico. Durante las reuniones, el bot puede registrar los puntos clave y generar actas automáticamente. Además, realiza el seguimiento de los compromisos definidos, enviando recordatorios y validando su cumplimiento. Finalmente, el bot gestiona la solicitud, revisión y divulgación del informe de causa raíz, asegurando que toda la información quede registrada en un repositorio centralizado. El bot incluye validaciones de datos, manejo de errores en caso de información incompleta y generación de reportes de trazabilidad. La arquitectura incluye integración con la plataforma ITSM, correo electrónico y herramientas de colaboración. Los criterios de éxito incluyen reducción del tiempo de gestión en un 50%, trazabilidad completa de los incidentes y disminución de errores manuales.",
+        "herramientas_sugeridas": [
+          "UiPath",
+          "Automation Anywhere",
+          "Rocketbot",
+          "Power Automate"
+        ]
+      },
+      {
+        "tipo": "Power Platform",
+        "descripcion": "La solución basada en Power Platform puede estructurar el proceso mediante aplicaciones y flujos automatizados. Se crea una aplicación en Power Apps para registrar incidentes mayores, donde los usuarios ingresan la información inicial del incidente. Un flujo en Power Automate se activa al registrar un nuevo incidente, generando automáticamente la comunicación oficial y enviándola por correo electrónico. El flujo también coordina la convocatoria de los responsables a las mesas de crisis, enviando invitaciones y recordatorios. Durante las reuniones, los participantes pueden registrar los puntos clave directamente en la aplicación, que genera actas automáticamente. El seguimiento de compromisos se gestiona mediante recordatorios automáticos y validaciones de cumplimiento. Además, se habilita un módulo para la solicitud y revisión del informe de causa raíz, con notificaciones automáticas para los responsables. Toda la información se almacena en SharePoint o Dataverse, asegurando trazabilidad y acceso centralizado. La solución incluye manejo de errores, como validaciones de datos incompletos, y genera reportes de seguimiento. Los criterios de éxito incluyen reducción del tiempo de gestión en un 40%, trazabilidad completa y mejora en la coordinación de actividades.",
+        "herramientas_sugeridas": [
+          "Power Apps",
+          "Power Automate",
+          "SharePoint",
+          "Dataverse"
+        ]
+      }
+    ],
+    "comportamiento_proceso": {
+      "pdf": "Si",
+      "Correo": "Ammadridf@compensar.com",
+      "Proceso": "Incidentes mayores",
+      "Tamaño": "Medio",
+      "PERSONAS": 3,
+      "FRECUENCIA": "Diario",
+      "tiempo_raw": "El tiempo promedio por ejecución, por persona, es de 60 a 90 minutos, considerando la frecuencia de atención de incidentes mayores. Este tiempo incluye la elaboración de la comunicación inicial, coordinación de participantes, desarrollo de mesas de crisis, generación de actas, seguimiento de compromisos y revisión del informe de causa raíz.  Cabe resaltar que este tiempo puede incrementarse dependiendo de la criticidad del incidente y la cantidad de mesas de trabajo requeridas.",
+      "Descripcion": "El proceso que se desea automatizar corresponde a la gestión integral de incidentes mayores, abarcando desde la comunicación inicial hasta el seguimiento de compromisos y cierre. Actualmente, estas actividades se realizan de forma manual, lo que genera demoras, riesgo de omisiones y falta de trazabilidad en momentos críticos.\n\nEl flujo incluye la creación y envío de la comunicación oficial del incidente mayor, la identificación de los responsables que deben participar en las mesas de crisis, la elaboración de actas, y la coordinación de espacios de trabajo para la atención del incidente. Asimismo, contempla la solicitud, revisión y divulgación del informe de causa raíz, junto con la generación de comunicaciones de seguimiento para asegurar el cumplimiento de los compromisos definidos.\n\nAdicionalmente, el proceso considera la gestión de mesas de trabajo orientadas a la identificación de la causa raíz o la implementación de soluciones temporales, y, en caso de ser necesario, la transición del incidente a la gestión de problemas mediante su respectiva socialización.\n\nLa automatización de este proceso busca optimizar tiempos de respuesta, mejorar la trazabilidad de la información, asegurar la correcta ejecución de cada etapa y fortalecer el control y seguimiento de los incidentes mayores.",
+      "FLAG ALERTA": false,
+      "Responsable": "Andrés Mauricio Madrid Flórez",
+      "TMO MINUTOS": 60,
+      "AVISO ALERTA": "",
+      "TRANSACCIONES PO": 1,
+      "FACTOR FRECUENCIA": 20,
+      "Línea de negocio": "Servicios de Ti",
+      "transacciones_raw": "En promedio, por cada ejecución una persona gestiona 1 caso o registro. Considerando la frecuencia mensual, se atienden aproximadamente hasta 13 incidentes mayores al mes, cada uno con gestión individual y seguimiento específico hasta su cierre.",
+      "prioridad_sugerida": "Media",
+      "estandarizacion_pct": 85,
+      "score_automatizacion": 65,
+      "POTENCIAL BENEFICIO MES HH": 60
+    },
+    "created_at": "2026-05-13T16:49:38.064000Z",
+    "updated_at": "2026-05-13T16:49:38.064000Z"
+  },
+  {
+    "id": 18,
+    "excel_response": null,
+    "excelResponseId": 18,
     "ranking_factibilidad": 5,
     "ponderacion_factibilidad": 67.6,
-    "resumen_ejecutivo": "El proceso 'Agente Triage + Escalamiento inteligente' busca optimizar la asignación de casos en el área de Servicios de TI, reduciendo errores de escalamiento y acelerando la resolución desde el primer contacto. Con un volumen diario de 50 transacciones por persona y una duración promedio de 10 minutos por caso, el proceso presenta un alto potencial de automatización debido a su repetitividad, reglas claras y datos estructurados. Sin embargo, la ausencia de un stack tecnológico definido limita la recomendación de herramientas específicas, aunque se pueden proponer soluciones genéricas adaptables a cualquier entorno empresarial.",
+    "resumen_ejecutivo": "El proceso 'Agente Triage + Escalamiento inteligente' busca optimizar la asignación de casos en el área de Servicios de TI, reduciendo errores de escalamiento y mejorando la calidad de la información desde el primer contacto. Con un volumen diario de 50 transacciones por persona y una duración promedio de 10 minutos por caso, el proceso presenta un alto potencial de automatización debido a su repetitividad, reglas claras y datos estructurados. La implementación de soluciones automatizadas puede generar un ahorro significativo en horas hombre y mejorar KPIs operativos como el porcentaje de escalamiento erróneo y el tiempo hasta la asignación correcta.",
     "viabilidad": "Alta",
+    "complejidad_implementacion": "Media",
+    "prioridad": "Alta",
+    "roi": 3.33,
+    "payback_months": 3.6,
     "soluciones_recomendadas": [
       {
         "tipo": "RPA",
-        "descripcion": "Un bot RPA puede ser configurado para analizar automáticamente la descripción de los casos al momento de su creación o actualización. El bot extrae datos clave como sede, zona, servicio afectado y consulta las reglas de escalamiento predefinidas en una base de datos estructurada. Utiliza estas reglas para sugerir el grupo resolutor y nivel adecuado. Si detecta que el caso no cumple con los mínimos requeridos, genera una lista detallada de los elementos faltantes y bloquea el escalamiento hasta que se cumplan los requisitos. El bot interactúa con sistemas como BMC Catálogo y SmartIT mediante integraciones API o interfaces de usuario. Genera reportes diarios sobre el porcentaje de escalamientos erróneos y devoluciones por falta de información, y envía alertas en tiempo real a los responsables cuando se detectan inconsistencias. La arquitectura incluye un servidor RPA, una base de datos para reglas de negocio y un módulo de generación de reportes. Los riesgos incluyen la necesidad de mantener actualizadas las reglas de escalamiento y posibles errores en la extracción de datos si los formatos cambian.",
+        "descripcion": "Un bot RPA puede ser configurado para analizar automáticamente la descripción de los casos al momento de su creación o actualización. El bot extrae datos clave como sede, zona, servicio afectado y consulta las reglas de escalamiento documentadas en sistemas como BMC Catálogo y SmartIT. Utiliza estas reglas para sugerir el grupo resolutor y nivel adecuado. Si detecta que el caso no cumple con los mínimos requeridos, genera una advertencia al usuario y una lista detallada de los elementos faltantes. El bot interactúa con las fuentes operativas mediante APIs o integraciones directas, validando información crítica como responsables y personal disponible. Además, registra todas las acciones en un log para auditoría y genera reportes sobre los casos procesados. La arquitectura incluye un bot RPA, conectores para sistemas operativos y un módulo de validación de reglas. Los riesgos incluyen la dependencia de reglas actualizadas y la calidad de los datos de entrada. El éxito se mide por la reducción de escalamientos erróneos y devoluciones por falta de información.",
         "herramientas_sugeridas": [
           "UiPath",
           "Automation Anywhere",
@@ -225,153 +259,56 @@
       },
       {
         "tipo": "LowCodeAi",
-        "descripcion": "Una solución basada en LowCodeAi puede implementar un modelo de procesamiento de lenguaje natural (NLP) para analizar la descripción de los casos y clasificar automáticamente el grupo resolutor y nivel adecuado. El sistema utiliza un flujo de trabajo diseñado en una plataforma de desarrollo LowCode para integrar las reglas de escalamiento y fuentes operativas como sedes, zonas y servicios afectados. El modelo NLP valida la calidad de la información y genera alertas cuando detecta datos faltantes, bloqueando el escalamiento hasta que se cumplan los requisitos. Además, el sistema puede generar respuestas automáticas para los usuarios, indicando los pasos necesarios para completar la información. La solución incluye un dashboard interactivo para monitorear métricas como tiempo promedio de asignación y porcentaje de casos resueltos sin reasignación. La arquitectura incluye un motor NLP, una base de datos para reglas de negocio y un módulo de visualización de datos. Los riesgos incluyen la necesidad de entrenar el modelo con datos representativos y garantizar la compatibilidad con los sistemas existentes.",
+        "descripcion": "Una solución basada en LowCodeAi puede implementar un modelo de procesamiento de lenguaje natural (NLP) para analizar la descripción de los casos y clasificar automáticamente el grupo resolutor y nivel adecuado. El sistema utiliza un motor de reglas configurado en plataformas como Power Apps para validar los datos de entrada y bloquear escalamientos erróneos. Además, genera recomendaciones en tiempo real para el usuario, indicando los elementos faltantes y sugiriendo acciones correctivas. La solución incluye un dashboard interactivo para monitorear el estado de los casos y los KPIs operativos. La arquitectura se compone de un modelo NLP, un motor de reglas, integraciones con sistemas operativos mediante APIs y un módulo de visualización. Los riesgos incluyen la necesidad de entrenar el modelo con datos históricos y garantizar la compatibilidad con las fuentes operativas. El éxito se mide por la mejora en el tiempo de asignación y la reducción de errores de escalamiento.",
         "herramientas_sugeridas": [
           "Microsoft Power Apps",
-          "OutSystems",
-          "Appian",
-          "Mendix"
+          "Azure Cognitive Services",
+          "Google Cloud AutoML",
+          "IBM Watson"
         ]
       }
     ],
-    "complejidad_implementacion": "Media",
-    "prioridad": "Alta",
     "comportamiento_proceso": {
-      "Proceso": "Agente “Triage + Escalamiento inteligente (cero escalamiento erróneo)”",
-      "Línea de negocio": "Servicios de TI",
-      "Responsable": "Waldo Suárez Roa",
-      "Correo": "wsuarezr@compensar.com",
-      "Descripcion": "Objetivo: reducir escalamiento erróneo y acelerar la asignación correcta desde el primer contacto.\nQué hace:\n•\tAl crear/actualizar el caso, analiza la descripción y sugiere grupo resolutor / nivel según reglas documentadas y escenarios de transferencia: \no\tEscalamiento funcional, información faltante, escalamiento erróneo. (Alineado a procedimiento de atención en Daruma)\n•\tConsulta fuentes operativas para asignación correcta (por ejemplo, sedes, zonas, frente de atención, responsables, personal crítico).\n•\tSi detecta que se intenta escalar sin mínimos, bloquea o “advierte” y genera la lista exacta de lo que falta (para evitar devoluciones por calidad).\nEntradas: texto del caso + sede/zona + servicio afectado + reglas de escalamiento + fuente operativa (tipo Power Apps). \nAutomatiza: recomendación de asignación, validación previa al escalamiento, devolución justificada.\nKPIs sugeridos: % escalamiento erróneo, # devoluciones por falta de información, tiempo hasta asignación correcta, % casos resueltos sin reasignación.\n\n2.\tAgente “Asistente de Primer Nivel (guía de diagnóstico + solución en primer contacto)”\nObjetivo: fortalecer atención de primer nivel y aumentar solución en primer contacto con guías consistentes.\nQué hace:\n•\tEntrega un paso a paso guiado al analista (tipo “árbol de decisión”), basado en el procedimiento de primer nivel y prácticas de atención. \n•\tSugiere preguntas correctas al analista y la forma de documentar (para que el caso quede completo desde el inicio). \n•\tControla reglas operativas como: si la atención remota supera cierto tiempo, sugiere cuándo debe pasar a segundo nivel (SPT). \n•\tPara categorías específicas (p. ej. hardware o módulos de pago), recomienda el grupo correcto según la regla definida en el procedimiento. \n•\tRedacta automáticamente el mensaje de cierre al usuario y personalización (estandariza calidad de comunicación). \nEntradas: categoría del ticket, síntomas, medio de contacto, procedimiento y guías. \nAutomatiza: guion de diagnóstico, documentación en lenguaje estándar, respuesta al usuario, recomendación de escalamiento cuando aplique.\nKPIs sugeridos: % solución en primer contacto, reducción de AHT (tiempo promedio), menos transferencias innecesarias, mejora de CSAT/NPS interno.",
-      "tiempo_raw": "10",
-      "transacciones_raw": "50",
       "pdf": "No",
-      "PERSONAS": 20,
-      "TRANSACCIONES PO": 50,
-      "TMO MINUTOS": 10,
-      "FACTOR FRECUENCIA": 20,
-      "POTENCIAL BENEFICIO MES HH": 3333.33,
-      "FRECUENCIA": "Diario",
-      "FLAG ALERTA": true,
-      "AVISO ALERTA": "La carga mensual estimada (3333.33 hh) supera la capacidad mensual de las personas reportadas (3200.00 hh). | El POTENCIAL BENEFICIO MES HH (3333.33) supera la capacidad mensual estimada del equipo (3200.00 hh).",
+      "Correo": "wsuarezr@compensar.com",
+      "Proceso": "Agente “Triage + Escalamiento inteligente (cero escalamiento erróneo)”",
       "Tamaño": "Muy largo",
+      "PERSONAS": 20,
+      "FRECUENCIA": "Diario",
+      "tiempo_raw": "10",
+      "Descripcion": "Objetivo: reducir escalamiento erróneo y acelerar la asignación correcta desde el primer contacto.\nQué hace:\n•\tAl crear/actualizar el caso, analiza la descripción y sugiere grupo resolutor / nivel según reglas documentadas y escenarios de transferencia: \no\tEscalamiento funcional, información faltante, escalamiento erróneo. (Alineado a procedimiento de atención en Daruma)\n•\tConsulta fuentes operativas para asignación correcta (por ejemplo, sedes, zonas, frente de atención, responsables, personal crítico).\n•\tSi detecta que se intenta escalar sin mínimos, bloquea o “advierte” y genera la lista exacta de lo que falta (para evitar devoluciones por calidad).\nEntradas: texto del caso + sede/zona + servicio afectado + reglas de escalamiento + fuente operativa (tipo Power Apps). \nAutomatiza: recomendación de asignación, validación previa al escalamiento, devolución justificada.\nKPIs sugeridos: % escalamiento erróneo, # devoluciones por falta de información, tiempo hasta asignación correcta, % casos resueltos sin reasignación.\n\n2.\tAgente “Asistente de Primer Nivel (guía de diagnóstico + solución en primer contacto)”\nObjetivo: fortalecer atención de primer nivel y aumentar solución en primer contacto con guías consistentes.\nQué hace:\n•\tEntrega un paso a paso guiado al analista (tipo “árbol de decisión”), basado en el procedimiento de primer nivel y prácticas de atención. \n•\tSugiere preguntas correctas al analista y la forma de documentar (para que el caso quede completo desde el inicio). \n•\tControla reglas operativas como: si la atención remota supera cierto tiempo, sugiere cuándo debe pasar a segundo nivel (SPT). \n•\tPara categorías específicas (p. ej. hardware o módulos de pago), recomienda el grupo correcto según la regla definida en el procedimiento. \n•\tRedacta automáticamente el mensaje de cierre al usuario y personalización (estandariza calidad de comunicación). \nEntradas: categoría del ticket, síntomas, medio de contacto, procedimiento y guías. \nAutomatiza: guion de diagnóstico, documentación en lenguaje estándar, respuesta al usuario, recomendación de escalamiento cuando aplique.\nKPIs sugeridos: % solución en primer contacto, reducción de AHT (tiempo promedio), menos transferencias innecesarias, mejora de CSAT/NPS interno.",
+      "FLAG ALERTA": true,
+      "Responsable": "Waldo Suárez Roa",
+      "TMO MINUTOS": 10,
+      "AVISO ALERTA": "La carga mensual estimada (3333.33 hh) supera la capacidad mensual de las personas reportadas (3200.00 hh). | El POTENCIAL BENEFICIO MES HH (3333.33) supera la capacidad mensual estimada del equipo (3200.00 hh).",
+      "TRANSACCIONES PO": 50,
+      "FACTOR FRECUENCIA": 20,
+      "Línea de negocio": "Servicios de TI",
+      "transacciones_raw": "50",
+      "prioridad_sugerida": "Media",
       "estandarizacion_pct": 60,
       "score_automatizacion": 56,
-      "prioridad_sugerida": "Media"
-    }
+      "POTENCIAL BENEFICIO MES HH": 3333.33
+    },
+    "created_at": "2026-05-13T16:49:38.077000Z",
+    "updated_at": "2026-05-13T16:49:38.077000Z"
   },
   {
+    "id": 19,
+    "excel_response": null,
+    "excelResponseId": 19,
     "ranking_factibilidad": 6,
-    "ponderacion_factibilidad": 61,
-    "resumen_ejecutivo": "El proceso 'Agente Asistente de Primer Nivel' busca mejorar la atención de primer nivel mediante guías de diagnóstico y soluciones en el primer contacto. Este proceso tiene un alto volumen de transacciones diarias (200 casos diarios en total) y una duración promedio de 10 minutos por caso, lo que genera una carga mensual significativa. La automatización puede reducir el tiempo promedio de atención, mejorar la calidad de las interacciones y estandarizar la documentación. Sin embargo, la baja estandarización actual (35%) y la complejidad de las reglas operativas requieren soluciones robustas y flexibles.",
+    "ponderacion_factibilidad": 61.6,
+    "resumen_ejecutivo": "El proceso 'Agente Control de Calidad + SLA' busca transformar la revisión reactiva en monitoreo continuo mediante alertas tempranas y tableros. Involucra la gestión de indicadores de calidad, cumplimiento de SLA, escalamiento y generación de reportes ejecutivos. La automatización puede reducir significativamente la carga operativa estimada en 4800 horas hombre mensuales, optimizando la eficiencia y escalabilidad del área de Servicios de TI. Sin embargo, el stack tecnológico no está definido, lo que limita la recomendación de herramientas específicas.",
     "viabilidad": "Alta",
-    "soluciones_recomendadas": [
-      {
-        "tipo": "RPA",
-        "descripcion": "Un bot RPA puede integrarse con las plataformas BMC Catálogo y BMC SmartIT para automatizar el flujo de trabajo del analista. El bot se activará al recibir un nuevo ticket en el sistema. Extraerá los datos relevantes del ticket (categoría, síntomas, medio de contacto) y consultará un árbol de decisión predefinido para guiar al analista en el diagnóstico. El bot sugerirá preguntas específicas y documentará automáticamente las respuestas en un formato estándar. Si el tiempo de atención supera un umbral definido, el bot notificará al analista sobre la necesidad de escalar el caso al segundo nivel. Al finalizar, el bot generará un mensaje de cierre personalizado para el usuario y lo enviará a través del medio de contacto registrado. El bot también registrará logs detallados de cada interacción para auditoría y análisis. La solución depende de la disponibilidad de APIs o accesos directos a las plataformas BMC y requiere un diseño inicial del árbol de decisión.",
-        "herramientas_sugeridas": [
-          "UiPath",
-          "Automation Anywhere",
-          "Rocketbot",
-          "Power Automate"
-        ]
-      },
-      {
-        "tipo": "LowCodeAi",
-        "descripcion": "Una solución basada en LowCodeAi puede implementar un asistente virtual que actúe como guía interactiva para los analistas. Este asistente se integrará con las plataformas BMC Catálogo y BMC SmartIT mediante APIs o conectores disponibles. El asistente presentará un flujo dinámico de preguntas y sugerencias basado en un modelo de árbol de decisión configurado previamente. Además, utilizará procesamiento de lenguaje natural (NLP) para interpretar las entradas del analista y ajustar las recomendaciones en tiempo real. El asistente también generará automáticamente mensajes de cierre personalizados y los registrará en el sistema. La solución incluirá un módulo de análisis para medir KPIs como el porcentaje de solución en primer contacto y el tiempo promedio de atención. Esta opción requiere un diseño inicial del árbol de decisión y entrenamiento del modelo NLP para garantizar precisión en las recomendaciones.",
-        "herramientas_sugeridas": [
-          "Microsoft Power Virtual Agents",
-          "Dialogflow",
-          "IBM Watson Assistant",
-          "Azure Bot Service"
-        ]
-      }
-    ],
     "complejidad_implementacion": "Media",
     "prioridad": "Alta",
-    "comportamiento_proceso": {
-      "Proceso": "Agente “Asistente de Primer Nivel (guía de diagnóstico + solución en primer contacto)”",
-      "Línea de negocio": "Servicios de TI",
-      "Responsable": "Waldo Suárez Roa",
-      "Correo": "wsuarezr@compensar.com",
-      "Descripcion": "Objetivo: fortalecer atención de primer nivel y aumentar solución en primer contacto con guías consistentes.\nQué hace:\n•\tEntrega un paso a paso guiado al analista (tipo “árbol de decisión”), basado en el procedimiento de primer nivel y prácticas de atención. \n•\tSugiere preguntas correctas al analista y la forma de documentar (para que el caso quede completo desde el inicio). \n•\tControla reglas operativas como: si la atención remota supera cierto tiempo, sugiere cuándo debe pasar a segundo nivel (SPT). \n•\tPara categorías específicas (p. ej. hardware o módulos de pago), recomienda el grupo correcto según la regla definida en el procedimiento. \n•\tRedacta automáticamente el mensaje de cierre al usuario y personalización (estandariza calidad de comunicación). \nEntradas: categoría del ticket, síntomas, medio de contacto, procedimiento y guías. \nAutomatiza: guion de diagnóstico, documentación en lenguaje estándar, respuesta al usuario, recomendación de escalamiento cuando aplique.\nKPIs sugeridos: % solución en primer contacto, reducción de AHT (tiempo promedio), menos transferencias innecesarias, mejora de CSAT/NPS interno.",
-      "tiempo_raw": "10",
-      "transacciones_raw": "50",
-      "pdf": "No",
-      "PERSONAS": 4,
-      "TRANSACCIONES PO": 50,
-      "TMO MINUTOS": 10,
-      "FACTOR FRECUENCIA": 20,
-      "POTENCIAL BENEFICIO MES HH": 666.67,
-      "FRECUENCIA": "Diario",
-      "FLAG ALERTA": true,
-      "AVISO ALERTA": "La carga mensual estimada (666.67 hh) supera la capacidad mensual de las personas reportadas (640.00 hh). | El POTENCIAL BENEFICIO MES HH (666.67) supera la capacidad mensual estimada del equipo (640.00 hh).",
-      "Tamaño": "Muy largo",
-      "estandarizacion_pct": 35,
-      "score_automatizacion": 45,
-      "prioridad_sugerida": "Baja"
-    }
-  },
-  {
-    "ranking_factibilidad": 7,
-    "ponderacion_factibilidad": 55.6,
-    "resumen_ejecutivo": "El proceso 'Agente Control de Calidad + SLA' tiene como objetivo transformar la revisión reactiva en un monitoreo continuo con alertas tempranas y tableros. Este proceso incluye la auditoría de cumplimiento de SLA, generación de reportes ejecutivos, identificación de riesgos de incumplimiento y análisis de causas para mejora continua. Dado su alto volumen de transacciones (100 casos por persona por ejecución) y su frecuencia semanal, el proceso es altamente repetitivo y dependiente de reglas claras, lo que lo hace viable para la automatización. Sin embargo, la complejidad de las reglas y la necesidad de integración con sistemas como BMC y SmartIT incrementan la complejidad de implementación.",
-    "viabilidad": "Alta",
+    "roi": 4,
+    "payback_months": 3,
     "soluciones_recomendadas": [
       {
         "tipo": "RPA",
-        "descripcion": "Un bot RPA puede ser configurado para interactuar con BMC y SmartIT, extrayendo datos de casos, estados, tiempos y escalamientos. El bot iniciaría su ejecución semanalmente, accediendo a los sistemas para recopilar información relevante. Posteriormente, aplicaría reglas predefinidas para identificar casos con riesgo de incumplimiento de SLA, generando alertas automáticas y enviando notificaciones por correo electrónico a los responsables. Además, el bot consolidaría los datos en un archivo estructurado (como Excel o CSV) y generaría reportes ejecutivos en formato PDF, incluyendo análisis de las principales causas de incumplimiento y devoluciones. El bot también podría actualizar un tablero de control en tiempo real mediante integración con herramientas de visualización como Power BI. Se incluirían validaciones para garantizar la integridad de los datos y manejo de errores en caso de fallos en los sistemas. Los logs de ejecución serían almacenados para auditoría y seguimiento.",
-        "herramientas_sugeridas": [
-          "UiPath",
-          "Automation Anywhere",
-          "Rocketbot",
-          "Power Automate"
-        ]
-      },
-      {
-        "tipo": "LowCodeAi",
-        "descripcion": "Una solución basada en LowCodeAi puede ser desarrollada para automatizar el monitoreo y análisis de SLA. La solución incluiría un flujo automatizado que se conecte a las APIs de BMC y SmartIT para extraer datos en tiempo real. Los datos serían procesados mediante un motor de reglas configurado para identificar riesgos de incumplimiento y generar alertas automáticas. La solución también incluiría un módulo de análisis que utilice algoritmos de aprendizaje automático para identificar patrones en las causas de incumplimiento y devoluciones. Los resultados serían presentados en un tablero interactivo, accesible a través de una interfaz web. Además, se generarían reportes automáticos en formato PDF y se enviarían notificaciones a los responsables mediante correo electrónico. La solución incluiría mecanismos de validación de datos, manejo de excepciones y generación de logs para auditoría.",
-        "herramientas_sugeridas": [
-          "Microsoft Power Apps",
-          "OutSystems",
-          "Mendix",
-          "Appian"
-        ]
-      }
-    ],
-    "complejidad_implementacion": "Alta",
-    "prioridad": "Alta",
-    "comportamiento_proceso": {
-      "Proceso": "Agente “Control de Calidad + SLA (alertas, cumplimiento y reportes automáticos)”",
-      "Línea de negocio": "Servicios de TI",
-      "Responsable": "Waldo Suárez Roa",
-      "Correo": "wsuarezr@compensar.com",
-      "Descripcion": "Objetivo: que calidad pase de “revisión reactiva” a monitoreo continuo con alertas tempranas y tableros.\nQué hace:\n•\tMonitorea cumplimiento de responsabilidades y objetivos de calidad (seguimiento integral, cumplimiento SLA, acuerdos de escalamiento, control de indicadores tipo CMI) y genera reportes ejecutivos.\n•\tIdentifica INC / WO con riesgo de incumplimiento y dispara acciones: priorización, recordatorio, reasignación sugerida, o solicitud de información antes de vencer SLA (propuesta).\n•\tProduce “Top causas de incumplimiento” y “Top motivos de devoluciones” para planes de mejora continua (propuesta, pero alineada a la función de analizar oportunidades de mejora). \nEntradas: casos BMC, estados, tiempos, historial de escalamiento, registros de atención, lineamientos de calidad y SLA. \nAutomatiza: alertas, auditoría continua, reporte semanal/mensual, backlog de acciones.",
-      "tiempo_raw": "120",
-      "transacciones_raw": "100",
-      "pdf": "Si",
-      "PERSONAS": 6,
-      "TRANSACCIONES PO": 100,
-      "TMO MINUTOS": 120,
-      "FACTOR FRECUENCIA": 4,
-      "POTENCIAL BENEFICIO MES HH": 4800,
-      "FRECUENCIA": "Semanal",
-      "FLAG ALERTA": true,
-      "AVISO ALERTA": "La carga mensual estimada (4800.00 hh) supera la capacidad mensual de las personas reportadas (960.00 hh). | El POTENCIAL BENEFICIO MES HH (4800.00) supera la capacidad mensual estimada del equipo (960.00 hh).",
-      "Tamaño": "Muy largo",
-      "estandarizacion_pct": 60,
-      "score_automatizacion": 46,
-      "prioridad_sugerida": "Baja"
-    }
-  },
-  {
-    "ranking_factibilidad": 8,
-    "ponderacion_factibilidad": 34.8,
-    "resumen_ejecutivo": "El proceso de 'Gestión de Problemas - Validaciones y seguimiento' implica actividades de análisis preventivo y contextual para identificar patrones, riesgos y señales tempranas en problemas recurrentes, cambios recientes e incidentes. Aunque el proceso tiene un nivel de estandarización moderado (60%), su frecuencia semanal y duración extensa (20 horas por ejecución) lo hacen candidato para automatización. Sin embargo, la ausencia de un stack tecnológico definido limita las opciones de herramientas específicas. Se identifican dos soluciones viables que optimizan la carga operativa y mejoran la toma de decisiones basada en datos.",
-    "viabilidad": "Media",
-    "soluciones_recomendadas": [
-      {
-        "tipo": "RPA",
-        "descripcion": "Un bot RPA puede automatizar la extracción, consolidación y análisis de datos desde las herramientas involucradas (Excel, SharePoint, BMC - CA Service Desk). El flujo inicia con un trigger semanal que activa la extracción de los reportes necesarios (incidentes registrados, incidentes cerrados, cambios cerrados, problemas registrados y medición de obsolescencia). El bot valida la integridad de los datos y aplica reglas predefinidas para identificar patrones y riesgos. Posteriormente, genera un informe consolidado con gráficos y métricas relevantes, que se almacena en SharePoint y se envía por correo electrónico a los interesados. El bot también programa recordatorios para seguimientos periódicos y registra logs de ejecución para auditoría. Supone acceso estable a las herramientas y reportes estructurados. Riesgos incluyen cambios en la estructura de los reportes o accesos restringidos.",
+        "descripcion": "Un bot RPA puede ser configurado para interactuar con el sistema BMC y SmartIT, extrayendo datos de casos, estados, tiempos y escalamientos. El bot iniciaría su ejecución semanalmente, accediendo a los registros de atención y lineamientos de calidad para identificar casos con riesgo de incumplimiento. Utilizaría reglas predefinidas para priorizar casos, enviar recordatorios y sugerir reasignaciones. Además, generaría reportes ejecutivos con indicadores clave como 'Top causas de incumplimiento' y 'Top motivos de devoluciones'. El bot incluiría validaciones para garantizar la integridad de los datos y manejar errores como accesos fallidos o datos incompletos. Los outputs incluirían reportes en formato PDF, alertas por correo y logs de auditoría. La arquitectura incluiría un servidor RPA, conexión API con BMC y almacenamiento en bases de datos locales o en la nube. Los criterios de éxito serían la reducción del tiempo de monitoreo en un 80% y la generación de reportes sin errores.",
         "herramientas_sugeridas": [
           "UiPath",
           "Automation Anywhere",
@@ -381,49 +318,56 @@
       },
       {
         "tipo": "Low Code",
-        "descripcion": "Una solución basada en Low Code puede implementar un flujo automatizado utilizando una plataforma como Power Platform. El flujo comienza con la integración de las fuentes de datos (Excel, SharePoint, BMC - CA Service Desk) mediante conectores nativos. Se configuran reglas de negocio para analizar los datos y generar alertas sobre patrones recurrentes o riesgos detectados. La solución incluye un dashboard interactivo que permite visualizar métricas clave y realizar seguimientos. Además, se automatiza el envío de correos electrónicos con informes semanales y recordatorios para los interesados. La arquitectura incluye conectores, un motor de reglas y un módulo de visualización. Supone que los datos están estructurados y accesibles. Riesgos incluyen limitaciones en la capacidad de integración con BMC - CA Service Desk.",
+        "descripcion": "Una solución basada en Low Code puede ser desarrollada para integrar los datos de BMC y SmartIT en una plataforma centralizada. La aplicación permitiría configurar reglas de negocio para monitorear SLA y escalamientos, generando alertas automáticas y tableros interactivos. Los usuarios podrían visualizar métricas como cumplimiento de SLA y causas de incumplimiento en tiempo real. La solución incluiría un módulo para generar reportes ejecutivos en formato PDF y enviar notificaciones por correo. La arquitectura consistiría en una base de datos relacional para almacenar los datos históricos, conectores API para integrar BMC y SmartIT, y una interfaz web para la interacción del usuario. Los riesgos incluyen la dependencia de la calidad de los datos y la necesidad de capacitación inicial. Los criterios de éxito serían la reducción de errores en el monitoreo y la mejora en la toma de decisiones basada en datos.",
         "herramientas_sugeridas": [
-          "Power Apps",
-          "Power Automate",
           "OutSystems",
-          "Mendix"
+          "Mendix",
+          "Microsoft Power Apps",
+          "Appian"
         ]
       }
     ],
-    "complejidad_implementacion": "Media",
-    "prioridad": "Media",
     "comportamiento_proceso": {
-      "Proceso": "GESTIÓN DE PROBLEMAS - Validaciones y seguimiento",
-      "Línea de negocio": "PGT",
-      "Responsable": "ANDREA RODRIGUEZ",
-      "Correo": "aurodriguezb@compensar.com",
-      "Descripcion": "En Validaciones y seguimiento se realiza un análisis preventivo y contextual del problema, revisando antecedentes relevantes como cambios recientes, problemas similares, incidentes recurrentes y condiciones de obsolescencia tecnológica. El objetivo es identificar patrones, riesgos conocidos y señales tempranas que permitan anticipar causas raíz antes de iniciar una investigación profunda. Incluye actividades de seguimiento periódico y comunicación con los interesados.",
-      "tiempo_raw": "Análisis e Identificación de cambios recientes relacionados\t4 horas, Análisis e Identificación de problemas anteriores relacionados (lecciones aprendidas y recomendaciones)\t4 horas, Análisis e Identificación de incidentes recurrentes relacionados\t5 horas, Análisis e Identificación Estado de Obsolescencia tecnológica\t3 horas, Programación de recurrencia para seguimiento\t1 horas, Correos de seguimiento (si aplica)\t3 horas",
-      "transacciones_raw": "Un análisis completo de incidentes, cambios, problemas en las diferentes herramientas a la semana por temas de carga operacional",
       "pdf": "Si",
-      "PERSONAS": 1,
-      "TRANSACCIONES PO": 0,
-      "TMO MINUTOS": 1200,
-      "FACTOR FRECUENCIA": 4,
-      "POTENCIAL BENEFICIO MES HH": 0,
+      "Correo": "wsuarezr@compensar.com",
+      "Proceso": "Agente “Control de Calidad + SLA (alertas, cumplimiento y reportes automáticos)”",
+      "Tamaño": "Muy largo",
+      "PERSONAS": 6,
       "FRECUENCIA": "Semanal",
+      "tiempo_raw": "120",
+      "Descripcion": "Objetivo: que calidad pase de “revisión reactiva” a monitoreo continuo con alertas tempranas y tableros.\nQué hace:\n•\tMonitorea cumplimiento de responsabilidades y objetivos de calidad (seguimiento integral, cumplimiento SLA, acuerdos de escalamiento, control de indicadores tipo CMI) y genera reportes ejecutivos.\n•\tIdentifica INC / WO con riesgo de incumplimiento y dispara acciones: priorización, recordatorio, reasignación sugerida, o solicitud de información antes de vencer SLA (propuesta).\n•\tProduce “Top causas de incumplimiento” y “Top motivos de devoluciones” para planes de mejora continua (propuesta, pero alineada a la función de analizar oportunidades de mejora). \nEntradas: casos BMC, estados, tiempos, historial de escalamiento, registros de atención, lineamientos de calidad y SLA. \nAutomatiza: alertas, auditoría continua, reporte semanal/mensual, backlog de acciones.",
       "FLAG ALERTA": true,
-      "AVISO ALERTA": "Ambigüedad en: Casos por ejecucion por persona. No se hallaron números en la descripción cualitativa.",
-      "Tamaño": "Corto",
+      "Responsable": "Waldo Suárez Roa",
+      "TMO MINUTOS": 120,
+      "AVISO ALERTA": "La carga mensual estimada (4800.00 hh) supera la capacidad mensual de las personas reportadas (960.00 hh). | El POTENCIAL BENEFICIO MES HH (4800.00) supera la capacidad mensual estimada del equipo (960.00 hh).",
+      "TRANSACCIONES PO": 100,
+      "FACTOR FRECUENCIA": 4,
+      "Línea de negocio": "Servicios de TI",
+      "transacciones_raw": "100",
+      "prioridad_sugerida": "Baja",
       "estandarizacion_pct": 60,
-      "score_automatizacion": 18,
-      "prioridad_sugerida": "Baja"
-    }
+      "score_automatizacion": 46,
+      "POTENCIAL BENEFICIO MES HH": 4800
+    },
+    "created_at": "2026-05-13T16:49:38.087000Z",
+    "updated_at": "2026-05-13T16:49:38.087000Z"
   },
   {
-    "ranking_factibilidad": 9,
-    "ponderacion_factibilidad": 34,
-    "resumen_ejecutivo": "El proceso de medición del nivel de cobertura de controles de seguridad en activos de la organización presenta una alta dependencia de reglas y validaciones cruzadas entre múltiples sistemas, como Directorio Activo, inventarios y soluciones de seguridad. Actualmente, se realiza manualmente con una duración extendida y una frecuencia mensual, lo que genera ineficiencias operativas y riesgos de seguridad. La automatización puede optimizar la supervisión, garantizar la cobertura en tiempo real y generar alertas proactivas, mejorando la postura de ciberseguridad de la organización.",
-    "viabilidad": "Alta",
+    "id": 20,
+    "excel_response": null,
+    "excelResponseId": 20,
+    "ranking_factibilidad": 7,
+    "ponderacion_factibilidad": 51,
+    "resumen_ejecutivo": "El proceso 'Agente Asistente de Primer Nivel' busca mejorar la atención de primer nivel mediante guías de diagnóstico y solución en el primer contacto. Actualmente, el proceso tiene una alta carga operativa (666.67 horas hombre mensuales) que supera la capacidad del equipo. La automatización puede reducir el tiempo promedio de atención (AHT), mejorar la calidad de documentación y aumentar la solución en primer contacto. Sin embargo, el nivel de estandarización actual es bajo (35%), lo que podría requerir ajustes en las reglas y procedimientos antes de implementar una solución automatizada.",
+    "viabilidad": "Media",
+    "complejidad_implementacion": "Media",
+    "prioridad": "Media",
+    "roi": 1.5,
+    "payback_months": 8,
     "soluciones_recomendadas": [
       {
         "tipo": "RPA",
-        "descripcion": "Un bot RPA puede ser configurado para realizar la validación de activos en tiempo real. El flujo inicia con un trigger programado que consulta los inventarios de activos desde las bases de datos o APIs disponibles. El bot cruza esta información con los grupos del Directorio Activo y las soluciones de seguridad como Intune, GlobalProtect y Prisma. Identifica discrepancias, como activos sin enrolamiento o sin los componentes de seguridad requeridos. Genera alertas automáticas enviadas por correo electrónico al equipo de Seguridad TI en caso de modificaciones o inconsistencias detectadas. El bot también genera reportes detallados con las diferencias encontradas y los activos afectados, almacenándolos en una base de datos central o compartiéndolos en un repositorio accesible. Incluye validaciones de datos para evitar errores y maneja excepciones como activos duplicados o registros incompletos. La arquitectura incluye el bot RPA, integraciones con APIs de las herramientas de seguridad y un sistema de notificaciones. Los criterios de éxito incluyen la reducción del tiempo de supervisión manual y la mejora en la cobertura de seguridad de los activos.",
+        "descripcion": "Un bot RPA puede ser configurado para interactuar con las herramientas BMC Catálogo y BMC SmartIT. El bot iniciaría su ejecución al recibir un ticket nuevo, identificando la categoría del ticket y los síntomas reportados. Utilizando un árbol de decisión predefinido, el bot sugeriría preguntas al analista y documentaría las respuestas en un formato estándar. Si el tiempo de atención supera un umbral definido, el bot recomendaría el escalamiento al segundo nivel. Para categorías específicas, el bot asignaría automáticamente el grupo correcto según las reglas operativas. Al finalizar, redactaría un mensaje de cierre personalizado para el usuario y lo enviaría a través del medio de contacto registrado. El bot generaría logs detallados de cada interacción y reportes de métricas clave como AHT y % de solución en primer contacto. La arquitectura incluiría un servidor RPA, conexión API con las herramientas BMC y un repositorio para almacenar las reglas y guías. Los riesgos incluyen la necesidad de mantener actualizadas las reglas y guías, así como posibles errores en la interpretación de datos no estructurados.",
         "herramientas_sugeridas": [
           "UiPath",
           "Automation Anywhere",
@@ -433,7 +377,125 @@
       },
       {
         "tipo": "LowCodeAi",
-        "descripcion": "Una solución basada en LowCodeAi puede ser desarrollada para integrar los sistemas de inventarios, Directorio Activo y herramientas de seguridad mediante APIs. La aplicación utiliza algoritmos para analizar en tiempo real los datos de activos y detectar anomalías, como la falta de enrolamiento en Intune o la ausencia de componentes de seguridad. La solución genera alertas automáticas y envía notificaciones al equipo de Seguridad TI cuando se detectan modificaciones en el inventario. Además, permite la generación de reportes dinámicos que se actualizan automáticamente y son accesibles desde un panel centralizado. La arquitectura incluye una plataforma LowCodeAi, integraciones con APIs de las herramientas de seguridad y un sistema de generación de reportes. Los supuestos incluyen la disponibilidad de APIs funcionales y acceso a los datos necesarios. Los riesgos incluyen posibles incompatibilidades entre sistemas y la necesidad de ajustes en las reglas de negocio. Los criterios de éxito incluyen la reducción de tiempo en la supervisión y la mejora en la detección de anomalías en tiempo real.",
+        "descripcion": "Una solución basada en LowCodeAi puede ser desarrollada para implementar un asistente virtual que guíe al analista en tiempo real. El asistente se integraría con las herramientas BMC Catálogo y BMC SmartIT mediante APIs, analizando los datos del ticket y sugiriendo preguntas y acciones basadas en un modelo de árbol de decisión. Utilizando procesamiento de lenguaje natural (NLP), el asistente podría interpretar los síntomas y categorizar el ticket automáticamente. También recomendaría el escalamiento al segundo nivel si el tiempo de atención excede el límite definido. Al finalizar, el asistente generaría un mensaje de cierre estandarizado y lo enviaría al usuario. La solución incluiría un dashboard para monitorear métricas como AHT y % de solución en primer contacto. La arquitectura consistiría en un motor de IA, integración API con las herramientas BMC y un módulo de NLP. Los riesgos incluyen la necesidad de entrenar el modelo de IA con datos históricos y garantizar la compatibilidad con las herramientas existentes.",
+        "herramientas_sugeridas": [
+          "Microsoft Azure AI",
+          "Google Dialogflow",
+          "IBM Watson Assistant",
+          "AWS Lex"
+        ]
+      }
+    ],
+    "comportamiento_proceso": {
+      "pdf": "No",
+      "Correo": "wsuarezr@compensar.com",
+      "Proceso": "Agente “Asistente de Primer Nivel (guía de diagnóstico + solución en primer contacto)”",
+      "Tamaño": "Muy largo",
+      "PERSONAS": 4,
+      "FRECUENCIA": "Diario",
+      "tiempo_raw": "10",
+      "Descripcion": "Objetivo: fortalecer atención de primer nivel y aumentar solución en primer contacto con guías consistentes.\nQué hace:\n•\tEntrega un paso a paso guiado al analista (tipo “árbol de decisión”), basado en el procedimiento de primer nivel y prácticas de atención. \n•\tSugiere preguntas correctas al analista y la forma de documentar (para que el caso quede completo desde el inicio). \n•\tControla reglas operativas como: si la atención remota supera cierto tiempo, sugiere cuándo debe pasar a segundo nivel (SPT). \n•\tPara categorías específicas (p. ej. hardware o módulos de pago), recomienda el grupo correcto según la regla definida en el procedimiento. \n•\tRedacta automáticamente el mensaje de cierre al usuario y personalización (estandariza calidad de comunicación). \nEntradas: categoría del ticket, síntomas, medio de contacto, procedimiento y guías. \nAutomatiza: guion de diagnóstico, documentación en lenguaje estándar, respuesta al usuario, recomendación de escalamiento cuando aplique.\nKPIs sugeridos: % solución en primer contacto, reducción de AHT (tiempo promedio), menos transferencias innecesarias, mejora de CSAT/NPS interno.",
+      "FLAG ALERTA": true,
+      "Responsable": "Waldo Suárez Roa",
+      "TMO MINUTOS": 10,
+      "AVISO ALERTA": "La carga mensual estimada (666.67 hh) supera la capacidad mensual de las personas reportadas (640.00 hh). | El POTENCIAL BENEFICIO MES HH (666.67) supera la capacidad mensual estimada del equipo (640.00 hh).",
+      "TRANSACCIONES PO": 50,
+      "FACTOR FRECUENCIA": 20,
+      "Línea de negocio": "Servicios de TI",
+      "transacciones_raw": "50",
+      "prioridad_sugerida": "Baja",
+      "estandarizacion_pct": 35,
+      "score_automatizacion": 45,
+      "POTENCIAL BENEFICIO MES HH": 666.67
+    },
+    "created_at": "2026-05-13T16:49:38.095000Z",
+    "updated_at": "2026-05-13T16:49:38.095000Z"
+  },
+  {
+    "id": 21,
+    "excel_response": null,
+    "excelResponseId": 21,
+    "ranking_factibilidad": 8,
+    "ponderacion_factibilidad": 34.8,
+    "resumen_ejecutivo": "El proceso de 'Gestión de Problemas - Validaciones y seguimiento' implica actividades de análisis preventivo y contextual de problemas, incluyendo la revisión de antecedentes, incidentes recurrentes y condiciones de obsolescencia tecnológica. Aunque el proceso tiene un nivel de estandarización moderado (60%), su frecuencia semanal y duración extensa (20 horas por ejecución) lo hacen candidato viable para automatización. La automatización puede reducir significativamente la carga operativa, mejorar la precisión en la identificación de patrones y riesgos, y optimizar la toma de decisiones basada en datos.",
+    "viabilidad": "Media",
+    "complejidad_implementacion": "Media",
+    "prioridad": "Media",
+    "roi": 2.5,
+    "payback_months": 6,
+    "soluciones_recomendadas": [
+      {
+        "tipo": "RPA",
+        "descripcion": "Un bot RPA puede automatizar la extracción de datos desde las herramientas ITSM (BMC - CA Service Desk) y los reportes de ofimática (Excel, Word, SharePoint). El bot iniciaría su ejecución semanalmente mediante un trigger programado. Primero, accedería a los sistemas con credenciales seguras y doble factor de autenticación, descargando los reportes necesarios. Luego, realizaría un análisis de los datos, identificando patrones de incidentes recurrentes, cambios recientes y problemas similares mediante reglas predefinidas. El bot generaría un informe consolidado con los hallazgos y lo enviaría por correo electrónico a los interesados. Validaciones como la integridad de los datos y el manejo de errores (fallos en la conexión o datos incompletos) estarían integradas en el flujo. La arquitectura incluiría el bot RPA, conectores para las herramientas ITSM y ofimáticas, y un sistema de notificaciones. El éxito se mediría por la reducción del tiempo manual dedicado al análisis y la mejora en la calidad de los informes generados.",
+        "herramientas_sugeridas": [
+          "UiPath",
+          "Automation Anywhere",
+          "Rocketbot",
+          "Power Automate"
+        ]
+      },
+      {
+        "tipo": "LowCodeAi",
+        "descripcion": "Una solución basada en LowCodeAi puede implementar un modelo de análisis predictivo para identificar patrones y riesgos en los datos históricos de incidentes, problemas y cambios. La solución integraría los datos provenientes de las herramientas ITSM y ofimáticas mediante conectores preconfigurados. El flujo iniciaría con la carga automática de los reportes en una base de datos centralizada. Luego, el modelo de IA analizaría los datos, detectando correlaciones y tendencias relevantes. Los resultados se presentarían en un dashboard interactivo, accesible para los interesados. Además, se programarían alertas automáticas para notificar sobre riesgos críticos o patrones emergentes. Validaciones como la calidad de los datos y la coherencia de los resultados estarían integradas en el sistema. La arquitectura incluiría una plataforma LowCodeAi, conectores para las herramientas ITSM y ofimáticas, y un módulo de visualización de datos. El éxito se mediría por la precisión del modelo predictivo y la reducción de incidentes recurrentes.",
+        "herramientas_sugeridas": [
+          "Power BI",
+          "Knime",
+          "Alteryx",
+          "Tableau"
+        ]
+      }
+    ],
+    "comportamiento_proceso": {
+      "pdf": "Si",
+      "Correo": "aurodriguezb@compensar.com",
+      "Proceso": "GESTIÓN DE PROBLEMAS - Validaciones y seguimiento",
+      "Tamaño": "Corto",
+      "PERSONAS": 1,
+      "FRECUENCIA": "Semanal",
+      "tiempo_raw": "Análisis e Identificación de cambios recientes relacionados\t4 horas, Análisis e Identificación de problemas anteriores relacionados (lecciones aprendidas y recomendaciones)\t4 horas, Análisis e Identificación de incidentes recurrentes relacionados\t5 horas, Análisis e Identificación Estado de Obsolescencia tecnológica\t3 horas, Programación de recurrencia para seguimiento\t1 horas, Correos de seguimiento (si aplica)\t3 horas",
+      "Descripcion": "En Validaciones y seguimiento se realiza un análisis preventivo y contextual del problema, revisando antecedentes relevantes como cambios recientes, problemas similares, incidentes recurrentes y condiciones de obsolescencia tecnológica. El objetivo es identificar patrones, riesgos conocidos y señales tempranas que permitan anticipar causas raíz antes de iniciar una investigación profunda. Incluye actividades de seguimiento periódico y comunicación con los interesados.",
+      "FLAG ALERTA": true,
+      "Responsable": "ANDREA RODRIGUEZ",
+      "TMO MINUTOS": 1200,
+      "AVISO ALERTA": "Ambigüedad en: Casos por ejecucion por persona. No se hallaron números en la descripción cualitativa.",
+      "TRANSACCIONES PO": 0,
+      "FACTOR FRECUENCIA": 4,
+      "Línea de negocio": "PGT",
+      "transacciones_raw": "Un análisis completo de incidentes, cambios, problemas en las diferentes herramientas a la semana por temas de carga operacional",
+      "prioridad_sugerida": "Baja",
+      "estandarizacion_pct": 60,
+      "score_automatizacion": 18,
+      "POTENCIAL BENEFICIO MES HH": 0
+    },
+    "created_at": "2026-05-13T16:49:38.105000Z",
+    "updated_at": "2026-05-13T16:49:38.105000Z"
+  },
+  {
+    "id": 22,
+    "excel_response": null,
+    "excelResponseId": 22,
+    "ranking_factibilidad": 9,
+    "ponderacion_factibilidad": 34,
+    "resumen_ejecutivo": "El proceso de medición del nivel de cobertura de controles de seguridad en activos de la organización presenta una alta dependencia de reglas y validaciones cruzadas entre múltiples sistemas, como Directorio Activo, inventarios y soluciones de seguridad. Actualmente, se realiza manualmente con una duración extendida de hasta 10 días por ejecución, lo que genera ineficiencias operativas y riesgos de seguridad debido a la falta de visibilidad en tiempo real. La automatización de este proceso puede garantizar una cobertura más robusta, alertas en tiempo real y generación de reportes detallados, mejorando la postura de ciberseguridad de la organización.",
+    "viabilidad": "Alta",
+    "complejidad_implementacion": "Media",
+    "prioridad": "Alta",
+    "roi": 3.5,
+    "payback_months": 6,
+    "soluciones_recomendadas": [
+      {
+        "tipo": "RPA",
+        "descripcion": "Un bot RPA puede ser configurado para realizar la validación de activos en tiempo real. El flujo inicia con un trigger programado que consulta los inventarios de activos desde las bases de datos o APIs disponibles. El bot cruza esta información con los grupos del Directorio Activo y las soluciones de seguridad como Intune, GlobalProtect y Prisma. Identifica discrepancias como activos sin enrolamiento o sin los componentes de seguridad instalados. Genera alertas automáticas enviadas por correo electrónico al equipo de Seguridad TI en caso de modificaciones o inconsistencias detectadas. El bot también genera reportes detallados en formato PDF con las diferencias encontradas y los activos afectados, almacenándolos en una ubicación centralizada. La arquitectura incluye el bot RPA, integraciones con APIs de las herramientas de seguridad y bases de datos, y un sistema de notificaciones. Supuestos incluyen acceso a las APIs de las herramientas mencionadas y permisos adecuados para consultar los inventarios. Riesgos incluyen posibles cambios en las estructuras de datos de las herramientas que podrían requerir ajustes en el bot. Criterios de éxito incluyen la reducción del tiempo de ejecución del proceso a menos de 1 día y la generación de alertas en tiempo real.",
+        "herramientas_sugeridas": [
+          "UiPath",
+          "Automation Anywhere",
+          "Rocketbot",
+          "Power Automate"
+        ]
+      },
+      {
+        "tipo": "LowCodeAi",
+        "descripcion": "Una solución basada en LowCodeAi puede ser desarrollada para integrar los sistemas de inventarios, Directorio Activo y herramientas de seguridad mediante APIs. La aplicación utiliza modelos de machine learning para identificar patrones de riesgo en los activos, como la falta de enrolamiento o componentes de seguridad. El flujo inicia con la ingestión de datos desde las fuentes disponibles, seguido por el análisis de las discrepancias y la generación de alertas automáticas. La solución incluye un dashboard interactivo que permite al equipo de Seguridad TI visualizar en tiempo real el estado de los activos, las discrepancias detectadas y las acciones recomendadas. También genera reportes automatizados en formato PDF con las diferencias encontradas. La arquitectura incluye integraciones con APIs, un motor de machine learning para análisis de datos y un sistema de generación de reportes. Supuestos incluyen acceso a las APIs y datos estructurados. Riesgos incluyen la calidad de los datos y posibles limitaciones en las integraciones. Criterios de éxito incluyen la generación de reportes en tiempo real y la reducción de riesgos de seguridad mediante alertas proactivas.",
         "herramientas_sugeridas": [
           "Microsoft Power Apps",
           "OutSystems",
@@ -442,40 +504,47 @@
         ]
       }
     ],
-    "complejidad_implementacion": "Media",
-    "prioridad": "Alta",
     "comportamiento_proceso": {
-      "Proceso": "Medición del nivel de cobertura del Controles de Seguridad",
-      "Línea de negocio": "Seguridad TI",
-      "Responsable": "Mary Milena Mancera",
-      "Correo": "mmmancererav@compensar.com",
-      "Descripcion": "Es un procedimiento que se hace con periodicidad mensual manualmente, pero debería hacerse en tiempo real.  Dare aun ejemplo de la situación y lo que se quisiera controlar, cuando llega un activo a la organización este debería contar con una línea base de programas incluyendo programas seguridad para la protección de los activos, no obstante, se ha evidenciado que no todos los activos se entregan con estos controles lo cual implica también conocer novedades tales como formateos de equipos y/o reasignación. \nNecesidad: \n1. Garantizar que los activos tengan instalados los componentes de seguridad agente de GlobalProtect (GP o Prisma), XDR y enrolamiento en Intune. \n2. Alertas de modificación en el inventario de activos (dispositivos moviles, tabletas, Desktops, Laptops) al equipo de Seguridad TI. \n3. Cruzar la información contenida en grupos de Directorio Activo, inventarios, solucuiones de seguridad.\n4. Reporte de diferencias y novedades con los activos",
-      "tiempo_raw": "Puede durar 10 dias dependiendo de la entrega de los insumos ",
-      "transacciones_raw": "Se requiere supervision contasnte de la aplicacion del control y la cobertura del mismo ",
       "pdf": "Si",
-      "PERSONAS": 1,
-      "TRANSACCIONES PO": 0,
-      "TMO MINUTOS": 10,
-      "FACTOR FRECUENCIA": 1,
-      "POTENCIAL BENEFICIO MES HH": 0,
-      "FRECUENCIA": "Mensual",
-      "FLAG ALERTA": true,
-      "AVISO ALERTA": "Ambigüedad en: Casos por ejecucion por persona. No se hallaron números en la descripción cualitativa.",
+      "Correo": "mmmancererav@compensar.com",
+      "Proceso": "Medición del nivel de cobertura del Controles de Seguridad",
       "Tamaño": "Corto",
+      "PERSONAS": 1,
+      "FRECUENCIA": "Mensual",
+      "tiempo_raw": "Puede durar 10 dias dependiendo de la entrega de los insumos ",
+      "Descripcion": "Es un procedimiento que se hace con periodicidad mensual manualmente, pero debería hacerse en tiempo real.  Dare aun ejemplo de la situación y lo que se quisiera controlar, cuando llega un activo a la organización este debería contar con una línea base de programas incluyendo programas seguridad para la protección de los activos, no obstante, se ha evidenciado que no todos los activos se entregan con estos controles lo cual implica también conocer novedades tales como formateos de equipos y/o reasignación. \nNecesidad: \n1. Garantizar que los activos tengan instalados los componentes de seguridad agente de GlobalProtect (GP o Prisma), XDR y enrolamiento en Intune. \n2. Alertas de modificación en el inventario de activos (dispositivos moviles, tabletas, Desktops, Laptops) al equipo de Seguridad TI. \n3. Cruzar la información contenida en grupos de Directorio Activo, inventarios, solucuiones de seguridad.\n4. Reporte de diferencias y novedades con los activos",
+      "FLAG ALERTA": true,
+      "Responsable": "Mary Milena Mancera",
+      "TMO MINUTOS": 10,
+      "AVISO ALERTA": "Ambigüedad en: Casos por ejecucion por persona. No se hallaron números en la descripción cualitativa.",
+      "TRANSACCIONES PO": 0,
+      "FACTOR FRECUENCIA": 1,
+      "Línea de negocio": "Seguridad TI",
+      "transacciones_raw": "Se requiere supervision contasnte de la aplicacion del control y la cobertura del mismo ",
+      "prioridad_sugerida": "Baja",
       "estandarizacion_pct": 0,
       "score_automatizacion": 0,
-      "prioridad_sugerida": "Baja"
-    }
+      "POTENCIAL BENEFICIO MES HH": 0
+    },
+    "created_at": "2026-05-13T16:49:38.114000Z",
+    "updated_at": "2026-05-13T16:49:38.114000Z"
   },
   {
+    "id": 23,
+    "excel_response": null,
+    "excelResponseId": 23,
     "ranking_factibilidad": 10,
     "ponderacion_factibilidad": 24,
-    "resumen_ejecutivo": "El proceso de facturación transversal en la operación de Tecnología / Plataforma TI presenta un alto nivel de complejidad debido a la cantidad de pasos involucrados, la baja estandarización de los insumos y la necesidad de manejar documentos no estructurados como facturas y PDFs. Aunque el proceso tiene una frecuencia mensual, involucra múltiples personas y requiere un análisis detallado, corrección y distribución de información. La automatización puede generar beneficios significativos en términos de reducción de errores, ahorro de tiempo y mejora en la fiabilidad de la información. Sin embargo, la falta de estandarización y la ambigüedad en las métricas dificultan la evaluación precisa de su impacto económico y operativo.",
+    "resumen_ejecutivo": "El proceso de facturación transversal en la operación de Tecnología / Plataforma TI presenta un alto nivel de complejidad debido a la cantidad de pasos involucrados, la baja estandarización de los insumos y la dependencia de reglas y excepciones. Aunque el proceso tiene una frecuencia mensual, su impacto económico y operativo es significativo, dado el número de personas involucradas y los beneficios esperados en términos de reducción de errores y mejora en la fiabilidad de la información. Sin embargo, la falta de datos cuantitativos precisos sobre duración y volumen de transacciones limita la capacidad de estimar con precisión el ROI y el periodo de recuperación. Se identifican dos soluciones viables para abordar la automatización del proceso, considerando la ausencia de un stack tecnológico definido.",
     "viabilidad": "Media",
+    "complejidad_implementacion": "Media",
+    "prioridad": "Media",
+    "roi": 0,
+    "payback_months": 0,
     "soluciones_recomendadas": [
       {
         "tipo": "RPA",
-        "descripcion": "Un bot RPA puede ser diseñado para automatizar el flujo de recepción, análisis y distribución de facturas. El proceso inicia con la recepción de insumos en formato PDF o Excel, donde el bot utiliza OCR para extraer datos relevantes. Posteriormente, el bot valida la información contra reglas predefinidas, corrige errores comunes y clasifica las facturas según el proveedor y el tipo de servicio. Una vez procesadas, las facturas son distribuidas automáticamente a los equipos correspondientes mediante correo electrónico o integración con sistemas internos. El bot también puede generar reportes de seguimiento y provisiones, enviando alertas en caso de inconsistencias. La arquitectura incluye un motor OCR, un sistema de gestión de excepciones y una base de datos para almacenar logs y resultados. Los riesgos incluyen la calidad de los documentos escaneados y la necesidad de ajustes en las reglas de negocio. El éxito se mide por la reducción de errores y el tiempo de procesamiento.",
+        "descripcion": "Un bot de RPA puede automatizar el flujo completo de facturación transversal. El proceso inicia con la recepción de insumos, donde el bot extrae datos de facturas y cuadros de Excel utilizando capacidades de lectura de archivos estructurados y no estructurados. Posteriormente, el bot realiza validaciones de formato y contenido, aplicando reglas predefinidas para identificar errores y excepciones. Los datos corregidos son distribuidos automáticamente a los equipos correspondientes mediante integraciones con sistemas internos o correo electrónico. El bot también puede gestionar la aprobación y calificación de servicios, interactuando con sistemas ERP o CRM mediante APIs. Finalmente, el bot genera reportes de seguimiento y provisiones, almacenándolos en una base de datos centralizada y enviando notificaciones a los responsables. El manejo de errores incluye alertas en caso de fallos en la lectura de insumos o en las integraciones. La arquitectura incluye un motor de RPA, conectores para lectura de archivos y APIs, y un módulo de generación de reportes. Los criterios de éxito incluyen la reducción de errores en un 80%, la disminución del tiempo de procesamiento en un 50% y la generación de reportes confiables en cada ciclo.",
         "herramientas_sugeridas": [
           "UiPath",
           "Automation Anywhere",
@@ -485,37 +554,38 @@
       },
       {
         "tipo": "LowCodeAi",
-        "descripcion": "Una solución basada en LowCodeAi puede ser implementada para estructurar y automatizar el análisis de facturas y cuadros de Excel. La solución utiliza modelos de aprendizaje automático para clasificar y extraer datos de documentos no estructurados, como PDFs y facturas escaneadas. El flujo comienza con la carga de documentos en una plataforma centralizada, donde los modelos de IA identifican patrones y extraen información clave. Los datos son validados contra reglas predefinidas y almacenados en una base de datos estructurada. La solución incluye una interfaz gráfica para que los usuarios puedan revisar y corregir excepciones manualmente. Además, se generan reportes automáticos que se distribuyen a los equipos correspondientes. La arquitectura incluye un motor de IA, una base de datos y una interfaz de usuario. Los riesgos incluyen la necesidad de entrenar los modelos con datos representativos y la dependencia de la calidad de los documentos. El éxito se mide por la precisión de la extracción de datos y la reducción de tiempo en el análisis.",
+        "descripcion": "Una solución basada en LowCodeAi puede abordar la automatización del proceso mediante la creación de flujos inteligentes que integren la recepción, análisis y distribución de insumos. La solución comienza con un módulo de OCR para extraer datos de facturas y documentos escaneados, seguido de un motor de reglas que aplica validaciones y correcciones automáticas. Los datos procesados son enviados a un sistema de gestión centralizado, donde se asignan tareas a los equipos correspondientes. La solución incluye un dashboard interactivo para el seguimiento de provisiones y pagos, con alertas configurables para excepciones o retrasos. La arquitectura incluye un motor de OCR, un sistema de reglas basado en inteligencia artificial y un módulo de visualización de datos. Los riesgos incluyen la calidad de los documentos escaneados y la necesidad de entrenar el modelo de IA para manejar excepciones. Los criterios de éxito incluyen la mejora en la fiabilidad de la información en un 90%, la reducción del tiempo de análisis en un 40% y la generación de alertas en tiempo real para excepciones.",
         "herramientas_sugeridas": [
-          "Microsoft Azure AI",
-          "Google Cloud AI",
-          "AWS AI Services"
+          "Microsoft Power Apps",
+          "Appian",
+          "OutSystems",
+          "Zoho Creator"
         ]
       }
     ],
-    "complejidad_implementacion": "Media",
-    "prioridad": "Media",
     "comportamiento_proceso": {
-      "Proceso": "Procesos transversales asociados a facturación",
-      "Línea de negocio": "Tecnología / Plataforma TI",
-      "Responsable": "Edwin Gómez Marentes",
-      "Correo": "egomezm@compensar.com",
-      "Descripcion": "Corresponde al manejo de la facturación de forma transversal a los diferentes equipos de la operación, allí se incluye, recepción de insumos, análisis, corrección, distribución al negocio, aprobación, calificación de servicios y seguimiento (provisiones y pagos) asociado a los diferentes proveedores.",
-      "tiempo_raw": "Depende de cada proceso.",
-      "transacciones_raw": "Depende de cada proceso.",
       "pdf": "Si",
-      "PERSONAS": 6,
-      "TRANSACCIONES PO": 0,
-      "TMO MINUTOS": 0,
-      "FACTOR FRECUENCIA": 1,
-      "POTENCIAL BENEFICIO MES HH": 0,
-      "FRECUENCIA": "Mensual",
-      "FLAG ALERTA": true,
-      "AVISO ALERTA": "Ambigüedad en: Casos por ejecucion por persona, Duracion minutos por ejecucion por persona. No se hallaron números en la descripción cualitativa.",
+      "Correo": "egomezm@compensar.com",
+      "Proceso": "Procesos transversales asociados a facturación",
       "Tamaño": "Corto",
+      "PERSONAS": 6,
+      "FRECUENCIA": "Mensual",
+      "tiempo_raw": "Depende de cada proceso.",
+      "Descripcion": "Corresponde al manejo de la facturación de forma transversal a los diferentes equipos de la operación, allí se incluye, recepción de insumos, análisis, corrección, distribución al negocio, aprobación, calificación de servicios y seguimiento (provisiones y pagos) asociado a los diferentes proveedores.",
+      "FLAG ALERTA": true,
+      "Responsable": "Edwin Gómez Marentes",
+      "TMO MINUTOS": 0,
+      "AVISO ALERTA": "Ambigüedad en: Casos por ejecucion por persona, Duracion minutos por ejecucion por persona. No se hallaron números en la descripción cualitativa.",
+      "TRANSACCIONES PO": 0,
+      "FACTOR FRECUENCIA": 1,
+      "Línea de negocio": "Tecnología / Plataforma TI",
+      "transacciones_raw": "Depende de cada proceso.",
+      "prioridad_sugerida": "Baja",
       "estandarizacion_pct": 35,
       "score_automatizacion": 0,
-      "prioridad_sugerida": "Baja"
-    }
+      "POTENCIAL BENEFICIO MES HH": 0
+    },
+    "created_at": "2026-05-13T16:49:38.125000Z",
+    "updated_at": "2026-05-13T16:49:38.125000Z"
   }
 ]

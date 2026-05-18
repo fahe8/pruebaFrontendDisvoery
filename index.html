@@ -30,6 +30,10 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
+  <!-- GridStack.js -->
+  <link href="https://cdn.jsdelivr.net/npm/gridstack@11.1.1/dist/gridstack.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/gridstack@11.1.1/dist/gridstack-all.js"></script>
+
   <style>
     * {
       font-family: 'Inter', sans-serif;
@@ -401,6 +405,41 @@
     .hover\:bg-white\/5:hover {
       background-color: var(--alpha5);
     }
+
+    /* Light mode specific for Benefit HH */
+    html.light .benefit-value {
+      color: #0f172a !important;
+    }
+
+    /* Ensure save button text/icon stays white in light mode */
+    html.light .btn-save {
+      color: #ffffff !important;
+    }
+
+    html.light .btn-save svg {
+      color: #ffffff !important;
+    }
+
+    /* GridStack Customization */
+    .grid-stack-item-content {
+      overflow: visible !important;
+    }
+
+    .ui-resizable-handle {
+      filter: invert(1);
+      opacity: 0.3;
+      transition: opacity 0.2s;
+    }
+
+    .grid-stack-item:hover .ui-resizable-handle {
+      opacity: 1;
+    }
+
+    .grid-stack-placeholder > .placeholder-content {
+      background: rgba(99, 102, 241, 0.1) !important;
+      border: 2px dashed rgba(99, 102, 241, 0.3) !important;
+      border-radius: 1rem !important;
+    }
   </style>
 </head>
 
@@ -561,66 +600,129 @@
           <!-- KPI Cards -->
           <div id="kpi-cards" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4"></div>
 
-          <!-- Charts row 1 -->
-          <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <!-- Bar chart: HH por proceso -->
-            <div class="xl:col-span-2 glass rounded-2xl p-5">
-              <div class="flex items-center justify-between mb-4">
-                <div>
-                  <h3 class="text-sm font-semibold text-slate-100">Horas Hombre por Proceso</h3>
-                  <p class="text-xs text-slate-500 mt-0.5">Consumo mensual de HH · colores por viabilidad</p>
+          <!-- Draggable Grid Container -->
+          <div class="grid-stack">
+            
+            <!-- Item 1: HH (Full width) -->
+            <div class="grid-stack-item" gs-w="12" gs-h="4" gs-x="0" gs-y="0">
+              <div class="grid-stack-item-content">
+                <div class="glass rounded-2xl p-5 h-full flex flex-col">
+                  <div class="flex items-center justify-between mb-4">
+                    <div>
+                      <h3 class="text-sm font-semibold text-slate-100">Horas Hombre por Proceso</h3>
+                      <p class="text-xs text-slate-500 mt-0.5">Consumo mensual de HH · colores por viabilidad</p>
+                    </div>
+                    <span class="flex gap-3 text-xs text-slate-500">
+                      <span class="flex items-center gap-1.5"><span
+                          class="w-2 h-2 rounded-full bg-emerald-500"></span>Alta</span>
+                      <span class="flex items-center gap-1.5"><span
+                          class="w-2 h-2 rounded-full bg-amber-500"></span>Media</span>
+                      <span class="flex items-center gap-1.5"><span
+                          class="w-2 h-2 rounded-full bg-rose-500"></span>Baja</span>
+                    </span>
+                  </div>
+                  <div class="flex-1 min-h-0">
+                    <canvas id="chart-bar"></canvas>
+                  </div>
                 </div>
-                <span class="flex gap-3 text-xs text-slate-500">
-                  <span class="flex items-center gap-1.5"><span
-                      class="w-2 h-2 rounded-full bg-emerald-500"></span>Alta</span>
-                  <span class="flex items-center gap-1.5"><span
-                      class="w-2 h-2 rounded-full bg-amber-500"></span>Media</span>
-                  <span class="flex items-center gap-1.5"><span
-                      class="w-2 h-2 rounded-full bg-rose-500"></span>Baja</span>
-                </span>
-              </div>
-              <div class="h-64">
-                <canvas id="chart-bar"></canvas>
               </div>
             </div>
 
-            <!-- Pie chart: distribución por modelo -->
-            <div class="glass rounded-2xl p-5">
-              <h3 class="text-sm font-semibold text-slate-100 mb-1">Distribución por Línea</h3>
-              <p class="text-xs text-slate-500 mb-4">Número de procesos por línea de negocio</p>
-              <div class="h-64">
-                <canvas id="chart-pie"></canvas>
+            <!-- Item 2: Ranking -->
+            <div class="grid-stack-item" gs-w="12" gs-h="4" gs-x="0" gs-y="4">
+              <div class="grid-stack-item-content">
+                <div class="glass rounded-2xl p-5 h-full flex flex-col">
+                  <div class="flex items-center justify-between mb-4">
+                    <div>
+                      <h3 class="text-sm font-semibold text-slate-100">Ranking de Factibilidad de Automatización</h3>
+                      <p class="text-xs text-slate-500 mt-0.5">Índice ponderado de viabilidad por proceso</p>
+                    </div>
+                  </div>
+                  <div class="flex-1 min-h-0">
+                    <canvas id="chart-ranking"></canvas>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Charts row 2 -->
-          <div class="glass rounded-2xl p-5">
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <h3 class="text-sm font-semibold text-slate-100">Ranking de Factibilidad de Automatización</h3>
-                <p class="text-xs text-slate-500 mt-0.5">Índice ponderado de viabilidad por proceso</p>
+            <!-- Item 3: Pie Chart -->
+            <div class="grid-stack-item" gs-w="4" gs-h="4" gs-x="0" gs-y="8">
+              <div class="grid-stack-item-content">
+                <div class="glass rounded-2xl p-5 h-full flex flex-col">
+                  <h3 class="text-sm font-semibold text-slate-100 mb-1">Distribución por Línea</h3>
+                  <p class="text-xs text-slate-500 mb-4">Número de procesos por línea de negocio</p>
+                  <div class="flex-1 min-h-0">
+                    <canvas id="chart-pie"></canvas>
+                  </div>
+                </div>
               </div>
             </div>
-            <div style="height: 280px;">
-              <canvas id="chart-ranking"></canvas>
-            </div>
-          </div>
 
-          <!-- Quick insights strip -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="glass rounded-2xl p-4 text-center">
-              <p class="text-2xl font-bold text-emerald-400" id="stat-alta">–</p>
-              <p class="text-xs text-slate-500 mt-1">Viabilidad Alta</p>
+            <!-- Item 4: Impact vs Factibilidad -->
+            <div class="grid-stack-item" gs-w="4" gs-h="4" gs-x="4" gs-y="8">
+              <div class="grid-stack-item-content">
+                <div class="glass rounded-2xl p-5 h-full flex flex-col">
+                  <h3 class="text-sm font-semibold text-slate-100 mb-1">Impacto vs Factibilidad</h3>
+                  <p class="text-xs text-slate-500 mb-4">Cuadrantes de prioridad · HH vs % Factibilidad</p>
+                  <div class="flex-1 min-h-0">
+                    <canvas id="chart-impact-effort"></canvas>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="glass rounded-2xl p-4 text-center">
-              <p class="text-2xl font-bold text-amber-400" id="stat-media">–</p>
-              <p class="text-xs text-slate-500 mt-1">Viabilidad Media</p>
+
+            <!-- Item 5: ROI vs Payback -->
+            <div class="grid-stack-item" gs-w="4" gs-h="4" gs-x="8" gs-y="8">
+              <div class="grid-stack-item-content">
+                <div class="glass rounded-2xl p-5 h-full flex flex-col">
+                  <h3 class="text-sm font-semibold text-slate-100 mb-1">ROI vs Payback</h3>
+                  <p class="text-xs text-slate-500 mb-4">Análisis financiero de automatización</p>
+                  <div class="flex-1 min-h-0">
+                    <canvas id="chart-roi-payback"></canvas>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="glass rounded-2xl p-4 text-center">
-              <p class="text-2xl font-bold text-sky-400" id="stat-diario">–</p>
-              <p class="text-xs text-slate-500 mt-1">Frecuencia Diaria</p>
+
+            <!-- Item 6: Scatter Plot -->
+            <div class="grid-stack-item" gs-w="6" gs-h="4" gs-x="0" gs-y="12">
+              <div class="grid-stack-item-content">
+                <div class="glass rounded-2xl p-5 h-full flex flex-col">
+                  <h3 class="text-sm font-semibold text-slate-100 mb-1">Viabilidad vs Complejidad</h3>
+                  <p class="text-xs text-slate-500 mb-4">Análisis de burbujas (tamaño = HH)</p>
+                  <div class="flex-1 min-h-0">
+                    <canvas id="chart-scatter"></canvas>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <!-- Item 7: Solutions Mix -->
+            <div class="grid-stack-item" gs-w="3" gs-h="4" gs-x="6" gs-y="12">
+              <div class="grid-stack-item-content">
+                <div class="glass rounded-2xl p-5 h-full flex flex-col">
+                  <h3 class="text-sm font-semibold text-slate-100 mb-1">Mix de Tecnologías</h3>
+                  <p class="text-xs text-slate-500 mb-4">Distribución por solución recomendada</p>
+                  <div class="flex-1 min-h-0">
+                    <canvas id="chart-solutions"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 8: Radar Chart -->
+            <div class="grid-stack-item" gs-w="3" gs-h="4" gs-x="9" gs-y="12">
+              <div class="grid-stack-item-content">
+                <div class="glass rounded-2xl p-5 h-full flex flex-col">
+                  <h3 class="text-sm font-semibold text-slate-100 mb-1">Estandarización vs Score</h3>
+                  <p class="text-xs text-slate-500 mb-4">Comparativa de atributos técnicos</p>
+                  <div class="flex-1 min-h-0">
+                    <canvas id="chart-radar"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
@@ -676,16 +778,84 @@
     </div>
   </div>
 
+  <!-- ═══════════════════ REEVALUATE MODAL ═══════════════════ -->
+  <div id="reevaluate-modal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
+    <div
+      class="modal-panel w-full max-w-md glass rounded-2xl shadow-2xl opacity-0 translate-y-4 scale-95 transition-all duration-250">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-white/8">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/20 flex items-center justify-center">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2.5"
+              viewBox="0 0 24 24">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h2 class="text-sm font-semibold text-slate-200">Configuración de Reevaluación</h2>
+        </div>
+        <button id="btn-close-reevaluate"
+          class="w-8 h-8 rounded-lg hover:bg-white/8 flex items-center justify-center text-slate-400 hover:text-slate-200 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-5">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Costo por
+              Hora (USD)</label>
+            <input id="reev-hourly-cost" type="number" value="12" class="filter-input w-full px-4 py-2.5">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Costo
+                Infraestructura</label>
+              <input id="reev-infra-cost" type="number" value="0" class="filter-input w-full px-4 py-2.5">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Costo
+                Iniciativa</label>
+              <input id="reev-init-cost" type="number" value="0" class="filter-input w-full px-4 py-2.5">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Stack
+              Tecnológico</label>
+            <input id="reev-stack" type="text" value="Python, RPA" class="filter-input w-full px-4 py-2.5"
+              placeholder="Separado por comas">
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-white/8 flex items-center gap-3">
+          <button id="btn-cancel-reevaluate"
+            class="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-all">
+            Cancelar
+          </button>
+          <button id="btn-confirm-reevaluate"
+            class="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-500/25 transition-all flex items-center justify-center gap-2">
+            <span>Iniciar Reevaluación</span>
+            <div id="reev-spinner"
+              class="hidden w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 
   <!-- ════════════ JS MODULES ════════════ -->
   <script src="./js/data.js"></script>
   <script src="./js/utils.js"></script>
   <script src="./js/components/kpiCards.js"></script>
+  <script src="./js/components/dashboardGrid.js"></script>
   <script src="./js/components/charts.js"></script>
   <script src="./js/components/table.js"></script>
   <script src="./js/components/filters.js"></script>
   <script src="./js/components/processDetail.js"></script>
+  <script src="./js/components/reevaluate.js"></script>
   <script src="./js/app.js"></script>
 
   <!-- Inline: post-init stats -->

@@ -2,53 +2,65 @@
  * data.js - Data layer: loads and normalizes process data
  */
 
+// Configuration
+const API_URL = 'http://localhost:3001/automation-analysis/analysis-results';
+
 // Normalized dataset will be stored here after fetch
 let processesData = [];
 
 /**
- * Load data from data.json and normalize/enrich each record.
+ * Load data from dynamic API and normalize/enrich each record.
  */
 async function loadData() {
   try {
-    const response = await fetch('./data.json');
+    const response = await fetch(API_URL);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const raw = await response.json();
 
     processesData = raw.map((item, index) => {
       const cp = item.comportamiento_proceso || {};
       return {
-        id: index + 1,
+        id: item.id || (index + 1),
         // Core identifiers
-        nombre: cp['Proceso'] || `Proceso ${index + 1}`,
-        lineaNegocio: cp['Línea de negocio'] || 'Sin clasificar',
-        nameModel: cp['Línea de negocio'] || 'Sin clasificar',  // alias for filter
-        responsable: cp['Responsable'] || 'N/A',
-        correo: cp['Correo'] || 'N/A',
-        descripcion: cp['Descripcion'] || '',
+        nombre: cp['Proceso'] || cp['proceso'] || `Proceso ${index + 1}`,
+        lineaNegocio: cp['Línea de negocio'] || cp['linea_de_negocio'] || 'Sin clasificar',
+        nameModel: cp['Línea de negocio'] || cp['linea_de_negocio'] || 'Sin clasificar',
+        responsable: cp['Responsable'] || cp['responsable'] || 'N/A',
+        correo: cp['Correo'] || cp['correo'] || 'N/A',
+        descripcion: cp['Descripcion'] || cp['descripcion'] || '',
         pdf: cp['pdf'] || 'No',
 
         // Operational metrics
-        frecuencia: cp['FRECUENCIA'] || cp['Frecuencia'] || 'N/A',
-        personas: cp['PERSONAS'] || 0,
-        transacciones: cp['TRANSACCIONES PO'] || 0,
-        tmo: cp['TMO MINUTOS'] || 0,
+        frecuencia: (cp['FRECUENCIA'] || cp['Frecuencia'] || cp['frecuencia'] || 'N/A').toLowerCase(),
+        personas: cp['PERSONAS'] || cp['personas'] || 0,
+        transacciones: cp['TRANSACCIONES PO'] || cp['transacciones'] || 0,
+        tmo: cp['TMO MINUTOS'] || cp['tmo_minutos'] || 0,
         tiempoRaw: cp['tiempo_raw'] || '',
         transaccionesRaw: cp['transacciones_raw'] || '',
-        hhMes: cp['POTENCIAL BENEFICIO MES HH'] || 0,
-        hhTotal: cp['POTENCIAL BENEFICIO MES HH'] || 0, // Fallback for KPI calculations
-        tamano: cp['Tamaño'] || 'N/A',
+        hhMes: cp['POTENCIAL BENEFICIO MES HH'] || cp['potencial_beneficio_mes_hh'] || 0,
+        hhTotal: cp['POTENCIAL BENEFICIO MES HH'] || cp['potencial_beneficio_mes_hh'] || 0,
+        tamano: cp['Tamaño'] || cp['tamano'] || 'N/A',
 
         // Alerts
-        hasAlert: cp['FLAG ALERTA'] === true,
-        alertMessage: cp['AVISO ALERTA'] || '',
+        hasAlert: cp['FLAG ALERTA'] === true || cp['flag_alerta'] === true,
+        alertMessage: cp['AVISO ALERTA'] || cp['aviso_alerta'] || '',
 
         // Automation assessment
         ranking: item.ranking_factibilidad || 0,
         ponderacion: item.ponderacion_factibilidad || 0,
         viabilidad: item.viabilidad || 'N/A',
         complejidad: item.complejidad_implementacion || 'N/A',
+        complejidadValor: item.complejidad_implementacion === 'Alta' ? 3 : item.complejidad_implementacion === 'Media' ? 2 : 1,
         prioridad: item.prioridad || 'N/A',
         resumenEjecutivo: item.resumen_ejecutivo || '',
         soluciones: item.soluciones_recomendadas || [],
+        prioridadSugerida: cp['prioridad_sugerida'] || 'N/A',
+        
+        // ROI & Financials
+        roi: item.roi || cp['roi'] || 0,
+        paybackMonths: item.payback_months || cp['payback_months'] || 0,
+        estandarizacion: cp['estandarizacion_pct'] || 0,
+        scoreAutomatizacion: cp['score_automatizacion'] || 0,
 
         // Derived: semaphore based on ponderacion
         semaphore: getSemaphore(item.ponderacion_factibilidad || 0),
@@ -69,6 +81,107 @@ function getSemaphore(score) {
   if (score >= 70) return 'green';
   if (score >= 45) return 'yellow';
   return 'red';
+}
+
+/**
+ * Update process metrics via API
+ */
+async function updateProcessData(id, data) {
+  try {
+    const url = `${API_URL}/${id}/update-operational-values`;
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    // Refresh data after update
+    await loadData();
+    return true;
+  } catch (err) {
+    console.error('Error updating process:', err);
+    return false;
+  }
+}
+
+/**
+ * Update recommended solutions via API
+ */
+async function updateSolutions(id, data) {
+  try {
+    const url = `${API_URL}/${id}/solutions`;
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    // Refresh data after update
+    await loadData();
+    return true;
+  } catch (err) {
+    console.error('Error updating solutions:', err);
+    return false;
+  }
+}
+
+/**
+ * Update process assessment details (summary, viability, complexity, priority) via API
+ */
+async function updateProcessDetails(id, data) {
+  try {
+    const url = `${API_URL}/${id}/details`;
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    // Refresh data after update
+    await loadData();
+    return true;
+  } catch (err) {
+    console.error('Error updating process details:', err);
+    return false;
+  }
+}
+
+/**
+ * Update core process identification (name, line, responsible, etc.) via API
+ */
+async function updateProcessBehavior(id, data) {
+  try {
+    const url = `${API_URL}/${id}/comportamiento-proceso`;
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    // Refresh data after update
+    await loadData();
+    return true;
+  } catch (err) {
+    console.error('Error updating process behavior:', err);
+    return false;
+  }
 }
 
 /** Get all unique values for a given field (for filter dropdowns) */
@@ -117,4 +230,56 @@ function computeKPIs(processes) {
     ? processes.reduce((s, p) => s + p.ponderacion, 0) / total
     : 0;
   return { total, totalHH, avgPonderacion };
+}
+
+/**
+ * reevaluateWithLLM - POST to trigger AI re-evaluation
+ */
+async function reevaluateWithLLM(id, data) {
+  try {
+    const url = `${API_URL}/${id}/reevaluate-with-llm?llm_provider=azure_openai`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    // Refresh data after AI re-evaluation
+    await loadData();
+    return true;
+  } catch (err) {
+    console.error('Error re-evaluating process:', err);
+    return false;
+  }
+}
+
+/**
+ * reevaluateBatch - Global re-evaluation call
+ */
+async function reevaluateBatch(data) {
+  try {
+    const url = `${API_URL}/reevaluate-with-llm`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    // Refresh data after global re-evaluation
+    await loadData();
+    return true;
+  } catch (err) {
+    console.error('Error in reevaluateBatch:', err);
+    return false;
+  }
 }

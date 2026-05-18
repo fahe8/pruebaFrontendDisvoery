@@ -216,6 +216,8 @@ function updateAllCharts(processes) {
     renderSolutionsChart(processes);
     renderRankingChart(processes);
     renderRadarChart(processes);
+    renderImpactEffortChart(processes);
+    renderROIPaybackChart(processes);
 }
 
 // ─── SCATTER CHART: Viabilidad vs Complejidad ───────────────────────────────
@@ -374,6 +376,144 @@ function renderRadarChart(processes) {
                 legend: {
                     position: 'bottom',
                     labels: { color: '#94a3b8', boxWidth: 10, font: { size: 9 }, padding: 10 }
+                }
+            }
+        }
+    });
+}
+
+// ─── QUADRANT CHART: Impacto vs Esfuerzo ─────────────────────────────────────
+
+function renderImpactEffortChart(processes) {
+    const ctx = document.getElementById('chart-impact-effort')?.getContext('2d');
+    if (!ctx) return;
+    if (charts.impactEffort) charts.impactEffort.destroy();
+
+    const data = processes.map(p => ({
+        x: p.ponderacion,
+        y: p.hhMes,
+        r: 8,
+        name: p.nombre,
+        semaphore: p.semaphore
+    }));
+
+    charts.impactEffort = new Chart(ctx, {
+        type: 'bubble',
+        data: {
+            datasets: [{
+                label: 'Procesos',
+                data,
+                backgroundColor: data.map(d =>
+                    d.semaphore === 'green' ? 'rgba(16, 185, 129, 0.6)' :
+                        d.semaphore === 'yellow' ? 'rgba(245, 158, 11, 0.6)' : 'rgba(244, 63, 94, 0.6)'
+                ),
+                borderColor: data.map(d =>
+                    d.semaphore === 'green' ? '#10b981' :
+                        d.semaphore === 'yellow' ? '#f59e0b' : '#f43f5e'
+                ),
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => {
+                            const p = data[ctx.dataIndex];
+                            return [`${p.name}`, `Factibilidad: ${fmt.percent(p.x)}`, `Impacto: ${fmt.hours(p.y)}/mes`];
+                        }
+                    }
+                },
+            },
+            scales: {
+                x: {
+                    min: 0, max: 100,
+                    title: { display: true, text: 'Factibilidad (Ease of Automation) %', color: '#64748b' },
+                    ticks: { color: '#94a3b8' },
+                    grid: { 
+                        color: context => context.tick.value === 50 ? 'rgba(99, 102, 241, 0.4)' : CHART_DEFAULTS.gridColor,
+                        lineWidth: context => context.tick.value === 50 ? 2 : 1
+                    }
+                },
+                y: {
+                    type: 'logarithmic',
+                    title: { display: true, text: 'Impacto (Horas Ahorradas / Mes)', color: '#64748b' },
+                    ticks: { 
+                        color: '#94a3b8',
+                        callback: function(value) {
+                             const remain = value / (Math.pow(10, Math.floor(Math.log10(value))));
+                             if (remain === 1 || remain === 2 || remain === 5 || value === 0) {
+                                 return fmt.number(value) + ' h';
+                             }
+                             return null;
+                        }
+                    },
+                    grid: { color: CHART_DEFAULTS.gridColor }
+                }
+            }
+        }
+    });
+}
+
+// ─── FINANCIAL CHART: ROI vs Payback ─────────────────────────────────────────
+
+function renderROIPaybackChart(processes) {
+    const ctx = document.getElementById('chart-roi-payback')?.getContext('2d');
+    if (!ctx) return;
+    if (charts.roiPayback) charts.roiPayback.destroy();
+
+    const data = processes.map(p => ({
+        x: p.paybackMonths,
+        y: p.roi,
+        r: 8,
+        name: p.nombre,
+        semaphore: p.semaphore
+    }));
+
+    charts.roiPayback = new Chart(ctx, {
+        type: 'bubble',
+        data: {
+            datasets: [{
+                label: 'Procesos',
+                data,
+                backgroundColor: data.map(d =>
+                    d.semaphore === 'green' ? 'rgba(16, 185, 129, 0.6)' :
+                        d.semaphore === 'yellow' ? 'rgba(245, 158, 11, 0.6)' : 'rgba(244, 63, 94, 0.6)'
+                ),
+                borderColor: data.map(d =>
+                    d.semaphore === 'green' ? '#10b981' :
+                        d.semaphore === 'yellow' ? '#f59e0b' : '#f43f5e'
+                ),
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => {
+                            const p = data[ctx.dataIndex];
+                            return [`${p.name}`, `Payback: ${p.x.toFixed(1)} meses`, `ROI: ${p.y.toFixed(0)}%`];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Payback (Meses)', color: '#64748b' },
+                    ticks: { color: '#94a3b8' },
+                    grid: { color: CHART_DEFAULTS.gridColor }
+                },
+                y: {
+                    title: { display: true, text: 'ROI (%)', color: '#64748b' },
+                    ticks: { color: '#94a3b8' },
+                    grid: { color: CHART_DEFAULTS.gridColor }
                 }
             }
         }
