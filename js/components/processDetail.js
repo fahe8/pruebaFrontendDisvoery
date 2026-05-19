@@ -2,6 +2,16 @@
  * processDetail.js – Modal for individual process detail view
  */
 
+function escapeHtml(unsafe) {
+  if (unsafe === null || unsafe === undefined) return '';
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function openProcessDetail(id) {
   const p = processesData.find(x => x.id === id);
   if (!p) return;
@@ -286,11 +296,11 @@ function renderModuleIdentification(p, isEditing) {
       <div class="space-y-3">
         <div class="space-y-1">
           <label class="text-[10px] text-indigo-300 uppercase font-bold">Nombre del Proceso</label>
-          <input id="edit-nombre" type="text" value="${p.nombre}" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
+          <input id="edit-nombre" type="text" value="${escapeHtml(p.nombre)}" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
         </div>
         <div class="space-y-1">
           <label class="text-[10px] text-indigo-300 uppercase font-bold">Línea de Negocio</label>
-          <input id="edit-linea" type="text" value="${p.lineaNegocio}" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
+          <input id="edit-linea" type="text" value="${escapeHtml(p.lineaNegocio)}" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
         </div>
       </div>
     `;
@@ -330,19 +340,19 @@ function renderModuleContact(p, isEditing) {
       <div class="grid grid-cols-2 gap-6">
         <div class="space-y-1">
           <label class="text-[10px] text-indigo-300 uppercase font-bold">Responsable</label>
-          <input id="edit-responsable" type="text" value="${p.responsable}" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors">
+          <input id="edit-responsable" type="text" value="${escapeHtml(p.responsable)}" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors">
         </div>
         <div class="space-y-1">
           <label class="text-[10px] text-indigo-300 uppercase font-bold">Requiere PDF</label>
           <select id="edit-pdf" class="block w-full bg-slate-800 border border-white/10 rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-indigo-500">
-            <option value="Si" ${p.pdf === 'Si' ? 'selected' : ''}>Si</option>
-            <option value="No" ${p.pdf === 'No' ? 'selected' : ''}>No</option>
+            <option value="Si" ${String(p.pdf).toLowerCase() === 'si' ? 'selected' : ''}>Si</option>
+            <option value="No" ${String(p.pdf).toLowerCase() === 'no' ? 'selected' : ''}>No</option>
           </select>
         </div>
       </div>
       <div class="pt-4 border-t border-white/5 space-y-1">
         <label class="text-[10px] text-indigo-300 uppercase font-bold">Correo Electrónico</label>
-        <input id="edit-correo" type="email" value="${p.correo}" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors">
+        <input id="edit-correo" type="email" value="${escapeHtml(p.correo)}" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors">
       </div>
     `;
   }
