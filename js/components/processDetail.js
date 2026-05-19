@@ -2,14 +2,17 @@
  * processDetail.js – Modal for individual process detail view
  */
 
-function escapeHtml(unsafe) {
-  if (unsafe === null || unsafe === undefined) return '';
-  return String(unsafe)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+/**
+ * Escapes special HTML characters so values are safe inside attribute quotes.
+ */
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function openProcessDetail(id) {
@@ -345,8 +348,8 @@ function renderModuleContact(p, isEditing) {
         <div class="space-y-1">
           <label class="text-[10px] text-indigo-300 uppercase font-bold">Requiere PDF</label>
           <select id="edit-pdf" class="block w-full bg-slate-800 border border-white/10 rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-indigo-500">
-            <option value="Si" ${String(p.pdf).toLowerCase() === 'si' ? 'selected' : ''}>Si</option>
-            <option value="No" ${String(p.pdf).toLowerCase() === 'no' ? 'selected' : ''}>No</option>
+            <option value="Si" ${p.pdf === 'Si' ? 'selected' : ''}>Si</option>
+            <option value="No" ${p.pdf === 'No' ? 'selected' : ''}>No</option>
           </select>
         </div>
       </div>
