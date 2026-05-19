@@ -230,26 +230,26 @@ function renderScatterChart(processes) {
     const data = processes.map(p => ({
         x: p.ponderacion,
         y: p.complejidadValor,
-        r: Math.max(4, Math.sqrt(p.hhMes) * 1.5), // bubble size based on HH
         name: p.nombre,
         semaphore: p.semaphore
     }));
 
     charts.scatter = new Chart(ctx, {
-        type: 'bubble',
+        type: 'scatter',
         data: {
             datasets: [{
                 label: 'Procesos',
                 data,
-                backgroundColor: data.map(d =>
+                pointRadius: 5, // Fixed point size
+                pointBackgroundColor: data.map(d =>
                     d.semaphore === 'green' ? 'rgba(16, 185, 129, 0.6)' :
                         d.semaphore === 'yellow' ? 'rgba(245, 158, 11, 0.6)' : 'rgba(244, 63, 94, 0.6)'
                 ),
-                borderColor: data.map(d =>
+                pointBorderColor: data.map(d =>
                     d.semaphore === 'green' ? '#10b981' :
                         d.semaphore === 'yellow' ? '#f59e0b' : '#f43f5e'
                 ),
-                borderWidth: 1,
+                pointBorderWidth: 0, // No border for the points
             }]
         },
         options: {
