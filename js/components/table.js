@@ -49,7 +49,7 @@ function renderTablePage() {
     { key: 'ponderacion', label: 'ponderacion', cls: 'text-right w-24' },
     { key: 'roi', label: 'roi', cls: 'text-right w-16' },
     { key: 'paybackMonths', label: 'payback', cls: 'text-right w-16' },
-    { key: 'prioridadSugerida', label: 'prioridad', cls: 'w-24' },
+    // { key: 'prioridadSugerida', label: 'prioridad', cls: 'w-24' },
     { key: 'pdf', label: 'pdf', cls: 'text-center w-10' },
     { key: '_actions', label: '', cls: 'w-20 text-center' },
   ];
@@ -99,9 +99,9 @@ function renderTablePage() {
       <td class="px-2 py-3 text-right text-xs ${p.paybackMonths > 0 ? 'text-amber-400 font-bold' : 'text-slate-500'}">
         ${p.paybackMonths > 0 ? p.paybackMonths.toFixed(1) + 'm' : 'N/A'}
       </td>
-      <td class="px-2 py-3">
+      <!-- <td class="px-2 py-3">
         ${priorityBadge(p.prioridadSugerida, false)}
-      </td>
+      </td> -->
       <td class="px-2 py-3 text-center">
         <span class="text-[10px] ${p.pdf === 'Si' ? 'text-emerald-400 font-bold' : 'text-slate-500'}">${p.pdf}</span>
       </td>
