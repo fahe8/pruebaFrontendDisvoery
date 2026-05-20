@@ -44,7 +44,7 @@ function renderTablePage() {
     { key: 'personas', label: 'pers', cls: 'text-right w-12' },
     { key: 'transacciones', label: 'trans', cls: 'text-right w-16' },
     { key: 'tmo', label: 'tmo', cls: 'text-right w-12' },
-    { key: 'hhMes', label: 'beneficio hh', cls: 'text-right w-20' },
+    { key: 'hhMes', label: 'beneficio hh/Mes', cls: 'text-right w-20' },
     { key: 'frecuencia', label: 'frec', cls: 'w-20' },
     { key: 'ponderacion', label: 'ponderacion', cls: 'text-right w-24' },
     { key: 'roi', label: 'roi', cls: 'text-right w-16' },
