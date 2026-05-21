@@ -2,9 +2,7 @@
  * data.js - Data layer: loads and normalizes process data
  */
 
-// Configuration
-// const API_URL = 'https://discovery-tsm7.onrender.com/automation-analysis/analysis-results';
-const API_URL = 'http://localhost:3001/automation-analysis/analysis-results';
+// La URL se carga desde .env en config.js (ver window.API_URL)
 
 // Normalized dataset will be stored here after fetch
 let processesData = [];
@@ -14,7 +12,8 @@ let processesData = [];
  */
 async function loadData() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(window.API_URL);
+    const response = await fetch(getApiUrl());
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const raw = await response.json();
 
@@ -89,7 +88,7 @@ function getSemaphore(score) {
  */
 async function updateProcessData(id, data) {
   try {
-    const url = `${API_URL}/${id}/update-operational-values`;
+    const url = `${window.API_URL}/${id}/update-operational-values`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -112,7 +111,7 @@ async function updateProcessData(id, data) {
  */
 async function updateSolutions(id, data) {
   try {
-    const url = `${API_URL}/${id}/solutions`;
+    const url = `${window.API_URL}/${id}/solutions`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -138,7 +137,7 @@ async function updateSolutions(id, data) {
  */
 async function updateProcessDetails(id, data) {
   try {
-    const url = `${API_URL}/${id}/details`;
+    const url = `${window.API_URL}/${id}/details`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -164,7 +163,7 @@ async function updateProcessDetails(id, data) {
  */
 async function updateProcessBehavior(id, data) {
   try {
-    const url = `${API_URL}/${id}/comportamiento-proceso`;
+    const url = `${window.API_URL}/${id}/comportamiento-proceso`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -238,7 +237,7 @@ function computeKPIs(processes) {
  */
 async function reevaluateWithLLM(id, data) {
   try {
-    const url = `${API_URL}/${id}/reevaluate-with-llm?llm_provider=azure_openai`;
+    const url = `${window.API_URL}/${id}/reevaluate-with-llm?llm_provider=azure_openai`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -264,7 +263,7 @@ async function reevaluateWithLLM(id, data) {
  */
 async function reevaluateBatch(data) {
   try {
-    const url = `${API_URL}/reevaluate-with-llm`;
+    const url = `${window.API_URL}/reevaluate-with-llm`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
