@@ -3,8 +3,8 @@
  */
 
 // Configuration
-const API_URL = 'https://discovery-tsm7.onrender.com/automation-analysis/analysis-results';
-// const API_URL = 'http://localhost:3001/automation-analysis/analysis-results';
+// const API_URL = 'https://discovery-tsm7.onrender.com/automation-analysis/analysis-results';
+const API_URL = 'http://localhost:3001/automation-analysis/analysis-results';
 
 // Normalized dataset will be stored here after fetch
 let processesData = [];

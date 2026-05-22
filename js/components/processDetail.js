@@ -478,7 +478,7 @@ window.saveModuleIdentification = async function (id) {
     return await updateProcessBehavior(id, data);
   }, '¡Actualizado!', () => {
     window.toggleEditIdentification(id);
-    if (typeof renderTable === 'function') renderTable(processesData);
+    refreshProcessSection(id);
   });
 };
 
@@ -531,6 +531,7 @@ window.saveModuleContact = async function (id) {
     return await updateProcessBehavior(id, data);
   }, '¡Actualizado!', () => {
     window.toggleEditContact(id);
+    refreshProcessSection(id);
   });
 };
 
@@ -583,6 +584,7 @@ window.saveModuleDescription = async function (id) {
     return await updateProcessBehavior(id, data);
   }, '¡Actualizado!', () => {
     window.toggleEditDescription(id);
+    refreshProcessSection(id);
   });
 };
 
@@ -623,7 +625,7 @@ window.saveModuleBadges = async function (id) {
     return await updateProcessDetails(id, data);
   }, '¡Actualizado!', () => {
     window.toggleEditBadges(id);
-    if (typeof renderKPICards === 'function') renderKPICards(processesData);
+    refreshProcessSection(id);
   });
 };
 
@@ -674,6 +676,7 @@ window.saveModuleExecutiveSummary = async function (id) {
     return await updateProcessDetails(id, data);
   }, '¡Actualizado!', () => {
     window.toggleEditExecutiveSummary(id);
+    refreshProcessSection(id);
   });
 };
 
@@ -741,6 +744,7 @@ window.saveSolutionsChanges = async function (id) {
     if (p) {
       document.getElementById('solutions-container').innerHTML = renderSolutionsList(p.soluciones, false);
     }
+    refreshProcessSection(id);
   });
 };
 
@@ -778,18 +782,7 @@ window.saveProcessChanges = async function (id) {
     };
     return await updateProcessData(id, payload);
   }, '¡Guardado!', () => {
-    // Update specific value in modal immediately
-    const updatedP = processesData.find(x => x.id === id);
-    if (updatedP) {
-      const hhDisplay = document.getElementById('display-hh-mes');
-      if (hhDisplay) {
-        hhDisplay.innerHTML = `${updatedP.hhMes.toFixed(1)} <span class="text-[10px] font-normal text-indigo-300">h/mes</span>`;
-      }
-    }
-    // Re-render dashboard/table behind the scenes
-    if (typeof renderKPICards === 'function') renderKPICards(processesData);
-    if (typeof renderTable === 'function') renderTable(processesData);
-    if (typeof updateAllCharts === 'function') updateAllCharts(processesData);
+    refreshProcessSection(id);
   });
 };
 
@@ -845,7 +838,37 @@ async function handleSaveUI(btnId, asyncFn, successLabel = '¡Guardado!', succes
     }, 3000);
   }
 }
+/** Global refresh helper for process detail saves */
+function refreshProcessSection(id) {
+  // Keep the process section active after saving
+  if (typeof showTab === 'function') showTab('processes');
 
+  const filtered = typeof filterProcesses === 'function'
+    ? filterProcesses(typeof activeFilters !== 'undefined' ? activeFilters : {})
+    : processesData;
+
+  if (typeof renderKPICards === 'function') renderKPICards(filtered);
+  if (typeof updateAllCharts === 'function') updateAllCharts(filtered);
+  if (typeof updateFilterCount === 'function') updateFilterCount(filtered.length);
+
+  if (typeof renderTable === 'function') {
+    if (typeof tableState !== 'undefined' && tableState.data) {
+      // Preserve the current filtered table view and page state
+      tableState.data = filtered.map(p => {
+        const updated = processesData.find(item => item.id === p.id);
+        return updated || p;
+      });
+      renderTablePage();
+    } else {
+      renderTable(filtered);
+    }
+  }
+
+  const modal = document.getElementById('process-detail-modal');
+  if (modal && !modal.classList.contains('hidden')) {
+    openProcessDetail(id);
+  }
+}
 /** Global clipboard helper */
 window.copyToClipboard = function (text, btn) {
   navigator.clipboard.writeText(text).then(() => {
