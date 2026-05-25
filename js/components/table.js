@@ -7,7 +7,7 @@ let tableState = {
   sortKey: 'ranking',
   sortDir: 'asc',
   page: 1,
-  pageSize: 10,
+  pageSize: 20,
 };
 
 function renderTable(processes) {
