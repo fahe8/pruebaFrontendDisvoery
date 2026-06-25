@@ -56,7 +56,37 @@ async function init() {
     // Show loader
     toggleVisible('app-loader', true);
     toggleVisible('app-content', false);
+    toggleVisible('empty-state-no-upload', false);
 
+    // 1. Load companies list
+    companiesCache = await fetchCompanies();
+    if (!companiesCache.length) {
+        toggleVisible('app-loader', false);
+        toggleVisible('empty-state-no-upload', true);
+        return;
+    }
+
+    // 2. Resolve selected company (localStorage or auto-select first company)
+    let companyId = getSelectedCompanyId();
+    if (!companyId || !companiesCache.some(c => c.id === companyId)) {
+        companyId = companiesCache[0].id;
+        setSelectedCompanyId(companyId);
+        clearSelectedExcelUploadId();
+    }
+    populateCompanySelect(companiesCache, companyId);
+
+    // 3. Resolve selected excel-upload (localStorage or most-recent upload for the company)
+    await refreshExcelUploadsForCompany(companyId, { autoSelectLatest: !getSelectedExcelUploadId() });
+
+    // 4. If there's no excel-upload available, show empty state instead of the dashboard
+    initCompanySelector();
+    if (!getSelectedExcelUploadId()) {
+        toggleVisible('app-loader', false);
+        toggleVisible('empty-state-no-upload', true);
+        return;
+    }
+
+    // 5. Load dashboard data for the resolved selection
     await loadData();
 
     // Wire up all components

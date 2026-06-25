@@ -12,11 +12,27 @@ const activeFilters = {
     hhMax: '',
 };
 
-function initFilters() {
-    // Populate dropdowns from data
+/** Repopulate filter dropdowns and reset active filters after the dataset changes (company/excel switch). */
+function refreshFilterOptions() {
     populateSelect('filter-model', getUniqueValues('nameModel'), 'Todas las líneas');
     populateSelect('filter-frecuencia', getUniqueValues('frecuencia'), 'Todas');
     populateSelect('filter-viabilidad', getUniqueValues('viabilidad'), 'Todas');
+
+    Object.keys(activeFilters).forEach(k => {
+        activeFilters[k] = (k === 'nameModel' || k === 'frecuencia' || k === 'viabilidad') ? 'all' : '';
+    });
+
+    const searchInput = document.getElementById('search-global');
+    if (searchInput) searchInput.value = '';
+    const hhMin = document.getElementById('filter-hh-min');
+    const hhMax = document.getElementById('filter-hh-max');
+    if (hhMin) hhMin.value = '';
+    if (hhMax) hhMax.value = '';
+}
+
+function initFilters() {
+    // Populate dropdowns from data
+    refreshFilterOptions();
 
     // Search
     const searchInput = document.getElementById('search-global');

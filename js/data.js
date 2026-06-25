@@ -3,18 +3,34 @@
  */
 
 // Configuration
-const API_URL = 'https://discovery-tsm7.onrender.com/automation-analysis/analysis-results';
-// const API_URL = 'http://localhost:3001/automation-analysis/analysis-results';
+// const API_URL = 'https://discovery-tsm7.onrender.com/automation-analysis/analysis-results';
+const API_URL = 'http://localhost:3001/automation-analysis/analysis-results';
 
 // Normalized dataset will be stored here after fetch
 let processesData = [];
 
+/** Builds a `company_id=X[&extra]` query string from the currently selected company. */
+function withCompanyQuery(extraParams = {}) {
+  const companyId = getSelectedCompanyId();
+  const params = new URLSearchParams({ company_id: companyId, ...extraParams });
+  return params.toString();
+}
+
 /**
  * Load data from dynamic API and normalize/enrich each record.
+ * Requires a selected company and excel-upload; returns [] otherwise.
  */
 async function loadData() {
   try {
-    const response = await fetch(API_URL);
+    const companyId = getSelectedCompanyId();
+    const excelUploadId = getSelectedExcelUploadId();
+    if (!companyId || !excelUploadId) {
+      processesData = [];
+      return processesData;
+    }
+
+    const query = withCompanyQuery({ excel_upload_id: excelUploadId });
+    const response = await fetch(`${API_URL}?${query}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const raw = await response.json();
 
@@ -89,7 +105,7 @@ function getSemaphore(score) {
  */
 async function updateProcessData(id, data) {
   try {
-    const url = `${API_URL}/${id}/update-operational-values`;
+    const url = `${API_URL}/${id}/update-operational-values?${withCompanyQuery()}`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -112,7 +128,7 @@ async function updateProcessData(id, data) {
  */
 async function updateSolutions(id, data) {
   try {
-    const url = `${API_URL}/${id}/solutions`;
+    const url = `${API_URL}/${id}/solutions?${withCompanyQuery()}`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -138,7 +154,7 @@ async function updateSolutions(id, data) {
  */
 async function updateProcessDetails(id, data) {
   try {
-    const url = `${API_URL}/${id}/details`;
+    const url = `${API_URL}/${id}/details?${withCompanyQuery()}`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -164,7 +180,7 @@ async function updateProcessDetails(id, data) {
  */
 async function updateProcessBehavior(id, data) {
   try {
-    const url = `${API_URL}/${id}/comportamiento-proceso`;
+    const url = `${API_URL}/${id}/comportamiento-proceso?${withCompanyQuery()}`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -238,7 +254,7 @@ function computeKPIs(processes) {
  */
 async function reevaluateWithLLM(id, data) {
   try {
-    const url = `${API_URL}/${id}/reevaluate-with-llm?llm_provider=azure_openai`;
+    const url = `${API_URL}/${id}/reevaluate-with-llm?llm_provider=azure_openai&${withCompanyQuery()}`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
