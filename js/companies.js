@@ -2,7 +2,8 @@
  * companies.js - Companies & excel-uploads API + excel upload (analyze) calls.
  */
 
-const BASE_API_URL = 'http://localhost:3001';
+// const BASE_API_URL = 'http://localhost:3001';
+const BASE_API_URL = 'https://discovery-tsm7.onrender.com';
 
 /** GET /companies -> [{id, name, codigo, created_at}] */
 async function fetchCompanies() {
